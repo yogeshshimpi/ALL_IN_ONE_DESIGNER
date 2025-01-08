@@ -1,101 +1,142 @@
+"use client";
+import "./landing_page.css";
 import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
+import logo from "@/app/assets/logo black.png";
+import menu from "@/app/assets/menu.svg";
+import arrow_for_white from "@/app/assets/arrow_forward_white.svg"
+import arrow_for from "@/app/assets/arrow_forward.svg"
+import dwo from "@/app/assets/design-with-friend.png"
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    const [dropDown,setDropDown] = useState(false)
+    const [width,setWidth] = useState(window.innerWidth)
+    const[btn_2_clone,setbtn_2_clone] = useState(false)
+    const array_tool = ["Word","PPT","Excel","Website","Resume Maker","Poster Maker"]
+    const [toolImage,setToolImage] = useState("Word")
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    useEffect(()=>{
+      const handleResize= ()=>{
+        setWidth(window.innerWidth)
+      }
+
+      window.addEventListener('resize',handleResize)
+      return(()=>{
+        window.removeEventListener('resize',handleResize)
+        
+      })
+    },[])
+    const handleToolImage = (e) =>{
+      setToolImage(array_tool[e])
+    }
+    const handlebtn2Clone = () =>{
+      setbtn_2_clone(true)
+      setTimeout(() => {
+        setbtn_2_clone(false)
+      }, 1000);
+    }
+
+    const handleDropDown = () =>{
+      setDropDown(!dropDown)
+    }
+
+  return (
+    <main>
+      <section className="hero">
+          <section className="sec">
+          <nav>
+          <div className="logo-side">
+            <Image src={logo} className="image" alt="" />
+            <div className="text">All In One Designer</div>
+          </div>
+          {
+            width <= 650 ? ( 
+              <div className="nav-btn-sec">
+                <button className="nav-btn" onClick={handleDropDown}>
+                 <Image src={menu} alt=""/>
+               
+              </button>  
+              <ul style={{opacity: dropDown? '100%':'0',transitionDuration:'0.3s'}}>
+                  <li>product</li>
+                  <li>product</li>
+                  <li>product</li>
+                  <li>product</li>
+                 </ul>
+              </div>
+            ) : (
+             <ul className="navigation">
+            <li>
+              Product
+              <span></span>
+            </li>
+            <li>
+              Tutorial
+              <span></span>
+            </li>
+            <li>
+              About
+              <span></span>
+            </li>
+            <li>
+              Contact Us
+              <span></span>
+            </li>
+          </ul>)
+          }
+         
+          <div className="log-in-btn">
+            <button className="btn-1">Log In</button>
+          </div>
+        </nav>
+        <section className="welcome-sec">
+          <div className="text-1">Welcome to</div>
+          <div className="text-2">All In One Designer</div>
+          <div className="text-3">Create Smarter, Innovate Faster !</div>
+          <button className="get-started" onClick={handlebtn2Clone}>
+            <div className="btn-1">Get Started</div>
+            <div className="btn-2">
+              <Image  src={arrow_for_white} width={20} className={btn_2_clone?"image-2":""} alt=""/>
+            </div>
+          </button>
+        </section>
+        <section className="tool-sec">
+          <div className="left-side">{toolImage}</div>
+          <div className="right-side">
+            <button className="btn0" onClick={()=>{handleToolImage(0)}}>Word</button>
+            <button className="btn1" onClick={()=>{handleToolImage(1)}}>PPT</button>
+            <button className="btn2" onClick={()=>{handleToolImage(2)}}>Excel</button>
+            <button className="btn3" onClick={()=>{handleToolImage(3)}}>Website</button>
+            <button className="btn4" onClick={()=>{handleToolImage(4)}}>Resume Maker</button>
+            <button className="btn5" onClick={()=>{handleToolImage(5)}}>Poster Maker</button>
+          </div>
+        </section>
+        <section className="dwo">
+          <Image className="dwo-image" src={dwo} alt=""/>
+          <div className="dwo-text">
+            <div className="heading">
+            Design With Other
+            </div>
+            <div className="paragraph">
+            Invite friends and family member to design with you set your
+            whole team to work together.
+            </div>
+          </div>
+        </section>
+      
+        <section className="get-started-sec">
+          <div className="text">Start Design with All In One Designer</div>
+          
+          <button className="get-started" onClick={handlebtn2Clone}>
+            <div className="btn-1">Get Started</div>
+            <div className="btn-2">
+              <Image  src={arrow_for} width={20} className={btn_2_clone?"image-2":""} alt=""/>
+            </div>
+          </button>
+        </section>
+      
+          </section>
+          
+        </section>
+    </main>
   );
 }
