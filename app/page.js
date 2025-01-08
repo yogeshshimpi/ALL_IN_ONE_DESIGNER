@@ -10,7 +10,7 @@ import dwo from "@/app/assets/design-with-friend.png";
 
 export default function Home() {
   const [dropDown, setDropDown] = useState(false);
-  const [width, setWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 0);
+  const [width, setWidth] = useState(window.innerWidth);
   const [btnClone, setBtnClone] = useState(false);
   const arrayTool = ["Word", "PPT", "Excel", "Website", "Resume Maker", "Poster Maker"];
   const [toolImage, setToolImage] = useState("Word");
