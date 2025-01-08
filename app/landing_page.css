@@ -438,9 +438,6 @@ nav .navigation li:hover span{
     .get-started-sec .text{
         font-size: 4vmax;
     }
-    .get-started-sec .get-started{
-        /* width: ; */
-    }
 }
 @media (max-width:868){
     .tool-sec{
@@ -502,7 +499,7 @@ nav .navigation li:hover span{
     }
 }
 
-@media (max-width:400){
+@media (max-width:470){
     .welcome-sec .text-1{
         font-size: 35px;
     }
