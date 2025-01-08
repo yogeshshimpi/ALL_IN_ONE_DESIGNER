@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono,Roboto_Condensed, Bebas_Neue, Mona_Sans, Ubuntu, Roboto, Poppins } from "next/font/google";
+import { Geist, Geist_Mono, Roboto_Condensed, Bebas_Neue, Mona_Sans, Ubuntu, Roboto, Poppins } from "next/font/google";
 import "./globals.css";
 
 // Define fonts with CSS variables
@@ -13,11 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 const roboto_condensed = Roboto_Condensed({
-  variable:"--roboto-condensed",
+  variable: "--roboto-condensed",
   subsets: ["latin"],
-  weight: ["400", "700","900"],
-
-})
+  weight: ["400", "700"],  // Removed 900 weight
+});
 
 const roboto = Roboto({
   variable: "--font-roboto",
