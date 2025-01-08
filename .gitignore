@@ -40,5 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Submodule (All_in_one_Designer) directory
-ALL_IN_ONE_DESGINER/
+# Ignore submodule directory
+All_in_one_Designer/
