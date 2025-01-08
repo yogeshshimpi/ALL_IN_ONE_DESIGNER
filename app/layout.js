@@ -1,21 +1,11 @@
-import { Geist, Geist_Mono, Roboto_Condensed, Bebas_Neue, Mona_Sans, Ubuntu, Roboto, Poppins } from "next/font/google";
+import { Inter, Roboto, Bebas_Neue, Ubuntu, Poppins } from "next/font/google";
 import "./globals.css";
 
 // Define fonts with CSS variables
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const roboto_condensed = Roboto_Condensed({
-  variable: "--roboto-condensed",
-  subsets: ["latin"],
-  weight: ["400", "700"],  // Removed 900 weight
+  weight: ["400", "700"],
 });
 
 const roboto = Roboto({
@@ -28,12 +18,6 @@ const bebasNeue = Bebas_Neue({
   variable: "--bebas-neue",
   subsets: ["latin"],
   weight: ["400"],
-});
-
-const monaSans = Mona_Sans({
-  variable: "--font-mona-sans",
-  subsets: ["latin"],
-  weight: ["400", "700"],
 });
 
 const ubuntu = Ubuntu({
@@ -58,7 +42,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${roboto_condensed.variable} ${geistMono.variable} ${bebasNeue.variable} ${monaSans.variable} ${ubuntu.variable} ${roboto.variable} ${poppins.variable} antialiased`}
+        className={`${inter.variable} ${roboto.variable} ${bebasNeue.variable} ${ubuntu.variable} ${poppins.variable} antialiased`}
       >
         {children}
       </body>
