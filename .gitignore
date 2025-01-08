@@ -40,8 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Ensure all files use LF
-* text eol=lf
+# # Ensure all files use LF
+# * text eol=lf
 
-# For Windows-specific scripts, use CRLF
-*.bat text eol=crlf
+# # For Windows-specific scripts, use CRLF
+# *.bat text eol=crlf
