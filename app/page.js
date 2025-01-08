@@ -8,31 +8,34 @@ import arrowForWhite from "@/app/assets/arrow_forward_white.svg";
 import arrowFor from "@/app/assets/arrow_forward.svg";
 import dwo from "@/app/assets/design-with-friend.png";
 
-export default function Home() {
-  const [dropDown, setDropDown] = useState(false);
-  const [width, setWidth] = useState(window.innerWidth);
-  const [btnClone, setBtnClone] = useState(false);
-  const arrayTool = ["Word", "PPT", "Excel", "Website", "Resume Maker", "Poster Maker"];
-  const [toolImage, setToolImage] = useState("Word");
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(0);
 
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleToolImage = (index) => {
-    setToolImage(arrayTool[index]);
-  };
+  return width;
+};
+
+export default function Home() {
+  const width = useWindowWidth();
+  const [dropDown, setDropDown] = useState(false);
+  const [btnClone, setBtnClone] = useState(false);
+  const arrayTool = ["Word", "PPT", "Excel", "Website", "Resume Maker", "Poster Maker"];
+  const [toolImage, setToolImage] = useState("Word");
+
+  const handleToolImage = (index) => setToolImage(arrayTool[index]);
 
   const handleBtnClone = () => {
     setBtnClone(true);
     setTimeout(() => setBtnClone(false), 1000);
   };
 
-  const handleDropDown = () => {
-    setDropDown((prev) => !prev);
-  };
+  const handleDropDown = () => setDropDown((prev) => !prev);
 
   return (
     <main>
@@ -44,15 +47,10 @@ export default function Home() {
           </div>
           {width <= 650 ? (
             <div className="nav-btn-sec">
-              <button className="nav-btn" onClick={handleDropDown}>
+              <button className="nav-btn" aria-label="Toggle menu" onClick={handleDropDown}>
                 <Image src={menu} alt="Menu icon" />
               </button>
-              <ul
-                style={{
-                  opacity: dropDown ? "100%" : "0",
-                  transitionDuration: "0.3s",
-                }}
-              >
+              <ul className={`dropdown ${dropDown ? "visible" : "hidden"}`}>
                 <li>Product</li>
                 <li>Tutorial</li>
                 <li>About</li>
@@ -73,8 +71,7 @@ export default function Home() {
         </nav>
 
         <section className="welcome-sec">
-          <div className="text-1">Welcome to</div>
-          <div className="text-2">All In One Designer</div>
+          <h1 className="text-2">All In One Designer</h1>
           <div className="text-3">Create Smarter, Innovate Faster!</div>
           <button className="get-started" onClick={handleBtnClone}>
             <div className="btn-1">Get Started</div>
