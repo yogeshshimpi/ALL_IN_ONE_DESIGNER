@@ -71,6 +71,7 @@ export default function Home() {
         </nav>
 
         <section className="welcome-sec">
+          <div className="text-1">Welcome to,</div>
           <h1 className="text-2">All In One Designer</h1>
           <div className="text-3">Create Smarter, Innovate Faster!</div>
           <button className="get-started" onClick={handleBtnClone}>
