@@ -42,7 +42,7 @@ form div{
 form  input{
     padding: 10px;
     background-color: rgba(255, 255, 255, 0.075);
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     border-radius: 5px;
     /* width: 100%; */
     width: 100%;
@@ -57,6 +57,8 @@ form input:focus{
     gap: 0px;
     background-color: rgba(255, 255, 255, 0.075);
     border: 2px solid transparent;
+}.password-field:focus-within{
+    border-color: #7c7c7c;
 }
 .password-field input{
     background-color: transparent;
@@ -78,9 +80,9 @@ form input:focus{
 }
 form div .error{
     margin-left: 10px;
-    font-size: 15px;
+    font-size: 13px;
     color: var(--color);
-    opacity: 0%;
+    height: 13px;
 }
 form .submit{
     padding: 10px 15px;
