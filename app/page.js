@@ -35,7 +35,7 @@ export default function Home() {
     setTimeout(() => setBtnClone(false), 1000);
   };
 
-  const handleDropDown = () => setDropDown((prev) => !prev);
+  const handleDropDown = () => setDropDown(!dropDown);
 
   return (
     <main>
@@ -50,7 +50,7 @@ export default function Home() {
               <button className="nav-btn" aria-label="Toggle menu" onClick={handleDropDown}>
                 <Image src={menu} alt="Menu icon" />
               </button>
-              <ul className={`dropdown ${dropDown ? "visible" : "hidden"}`}>
+              <ul style={{opacity:dropDown?"100%":"0%",transitionDuration:"0.5s"}}>
                 <li>Product</li>
                 <li>Tutorial</li>
                 <li>About</li>

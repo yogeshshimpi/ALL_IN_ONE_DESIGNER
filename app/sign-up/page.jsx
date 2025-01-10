@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import "@/app/sign-up/sign_up.css";
@@ -7,17 +7,17 @@ import visibility from "@/app/assets/visibility.svg";
 import visibility_off from "@/app/assets/visibility_off.svg";
 import { useForm } from "react-hook-form";
 
-const page = () => {
+export default function Sign_up() {
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
   const [EyePassword, setEyePassword] = useState(false);
   const [EyeConfirm, setEyeConfirm] = useState(false);
   const password = watch("password");
- 
+
   const handleInputType = (e) => {
     if (e == 0) {
       setEyePassword(!EyePassword);
@@ -26,8 +26,23 @@ const page = () => {
     }
   };
 
-  const onSubmit = (date) => {
-    
+  const onSubmit = async (data) => {
+    const a = await fetch("/api/sign-up", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    const result = await a.json();
+  };
+
+  const handleUserExist = async (value) => {
+    const res = await fetch("/api/usernameExist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body:JSON.stringify({username:value})
+    });
+    const result = await res.json()
+    return result.data ? false : true  
   };
 
   return (
@@ -35,28 +50,33 @@ const page = () => {
       <section className="hero">
         <div className="heading">Sign Up</div>
         <div className="sub-heading">Create New Account</div>
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <form action="" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+          {/* <input type="text" value={"yogesh4"} style={{display:'none'}} {...register("name",{        })} /> */}
           <div className="username">
             <input
               type="text"
+              name="username"
               placeholder="username"
-              {...register("username", {
+              {...register("name", {
                 required: { value: true, message: "Username is required" },
                 minLength: { value: 3, message: "Minimum length 3 required" },
                 maxLength: { value: 15, message: "Maximum length 15 required" },
                 pattern: {
-                  value: /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d).+$/,
-                  message:
-                    "Username should contain special character and numeric value",
+                  value: /^\S+$/,
+                  message: "Username cannot contain spaces",
+                },
+                validate: {
+                  userExist: async (value) =>
+                    (await handleUserExist(value)) ||
+                    "Th username is already taken",
                 },
               })}
             />
-            <div className="error">
-              {errors.username && errors.username.message}
-            </div>
+            <div className="error">{errors.name && errors.name.message}</div>
           </div>
           <div className="email">
             <input
+              name="email"
               type="text"
               placeholder="Email"
               {...register("email", {
@@ -73,10 +93,11 @@ const page = () => {
             <div className="password-field">
               <input
                 type={EyePassword ? "password" : "text"}
+                name="password"
                 placeholder="Password"
                 {...register("password", {
                   required: { value: true, message: "Password is required" },
-                  minLength: { value: 3, message: "Minimum length 3 required" },
+                  minLength: { value: 6, message: "Minimum length 6 required" },
                   maxLength: {
                     value: 15,
                     message: "Maximum length 15 required",
@@ -111,7 +132,7 @@ const page = () => {
                 type={EyeConfirm ? "password" : "text"}
                 placeholder="Confirm password"
                 {...register("confirmPassword", {
-                  required:{value:true, message:"This field is required"},
+                  required: { value: true, message: "This field is required" },
                   validate: (value) =>
                     value === password || "Passwords do not match",
                 })}
@@ -146,6 +167,6 @@ const page = () => {
       </section>
     </main>
   );
-};
+}
 
-export default page;
+// export default page;
