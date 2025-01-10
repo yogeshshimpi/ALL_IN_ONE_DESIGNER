@@ -93,13 +93,13 @@ nav .navigation li:hover span{
     background-color: var(--black-2);
 }
 
-@media (max-width:780) {
+@media (max-width:780px) {
     .log-in-btn{
         display: none;
     }
 }
 
-@media (max-width:650) {
+@media (max-width:650px) {
     .nav-btn-sec ul{
         display: flex;
         flex-direction: column;
@@ -418,7 +418,7 @@ nav .navigation li:hover span{
     font-weight: 600;
 }
 
-@media (max-width:1040){
+@media (max-width:1040px){
     .dwo{
         /* flex-direction: column-reverse; */
         height: 600px;
@@ -440,7 +440,7 @@ nav .navigation li:hover span{
         font-size: 4vmax;
     }
 }
-@media (max-width:868){
+@media (max-width:868px){
     .tool-sec{
         flex-direction: column !important;
         align-items: center;
@@ -461,7 +461,7 @@ nav .navigation li:hover span{
     }
 }
 
-@media (max-width:730){
+@media (max-width:730px){
     .welcome-sec .text-1{
         font-size: 40px;
     }
@@ -472,7 +472,7 @@ nav .navigation li:hover span{
         font-size: 20px;
     }
 }
-@media (max-width:650){
+@media (max-width:650px){
     .dwo{
         flex-direction: column;
     }
@@ -484,7 +484,7 @@ nav .navigation li:hover span{
         width: 100%;
     }
 }
-@media (max-width:450){
+@media (max-width:450px){
     .hero{
         width: 100%;
          /* background-color: #0078d46b; */
@@ -494,13 +494,13 @@ nav .navigation li:hover span{
     }
 }
 
-@media (max-width:380){
+@media (max-width:380px){
     .dwo-text {
         width: 100% !important;
     }
 }
 
-@media (max-width:470){
+@media (max-width:470px){
     .welcome-sec .text-1{
         font-size: 35px;
     }
@@ -512,7 +512,7 @@ nav .navigation li:hover span{
     }
 }
 
-@media (max-width:330){
+@media (max-width:330px){
     .welcome-sec .text-1{
         font-size: 25px;
     }

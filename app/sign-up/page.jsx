@@ -111,6 +111,7 @@ const page = () => {
                 type={EyeConfirm ? "password" : "text"}
                 placeholder="Confirm password"
                 {...register("confirmPassword", {
+                  required:{value:true, message:"This field is required"},
                   validate: (value) =>
                     value === password || "Passwords do not match",
                 })}
