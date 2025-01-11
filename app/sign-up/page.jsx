@@ -12,7 +12,7 @@ export default function Sign_up() {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors ,isSubmitting },
   } = useForm();
   const [EyePassword, setEyePassword] = useState(false);
   const [EyeConfirm, setEyeConfirm] = useState(false);
@@ -32,7 +32,7 @@ export default function Sign_up() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-    const result = await a.json();
+    // const result = await a.json();
   };
 
   const handleUserExist = async (value) => {
@@ -42,7 +42,7 @@ export default function Sign_up() {
       body:JSON.stringify({username:value})
     });
     const result = await res.json()
-    return result.data ? false : true  
+    return result.data ? true : false  
   };
 
   return (
@@ -68,7 +68,7 @@ export default function Sign_up() {
                 validate: {
                   userExist: async (value) =>
                     (await handleUserExist(value)) ||
-                    "Th username is already taken",
+                    "The username is already taken",
                 },
               })}
             />
@@ -154,8 +154,8 @@ export default function Sign_up() {
               {errors.confirmPassword && errors.confirmPassword.message}
             </div>
           </div>
-          <button className="submit" type="submit">
-            Create account
+          <button disabled={isSubmitting} className="submit" type="submit">
+            {isSubmitting?<div className="loader"></div>:"submit"}
           </button>
         </form>
         <span className="or"></span>

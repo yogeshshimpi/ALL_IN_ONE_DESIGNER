@@ -8,10 +8,11 @@ export async function POST(request) {
         await mongoose.connect(connectionSrt)
         const data = await request.json()
         const result = await userinfos.findOne({name: data.username})
-        if(result){
+        if(!result){
             return NextResponse.json({success:true,data:true})
         }else{
-            return NextResponse.json({success:true,data:false})
+
+            return NextResponse.json({success:false,data:false})
             
         }
             

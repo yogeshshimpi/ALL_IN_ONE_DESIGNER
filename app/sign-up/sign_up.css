@@ -19,7 +19,7 @@ main{
 }
 
 .heading{
-    font-size: var(--roboto);
+    font-family: var(--roboto);
     font-size: 45px;
     font-weight: 700;
 }
@@ -85,13 +85,18 @@ form div .error{
     height: 13px;
 }
 form .submit{
-    padding: 10px 15px;
+    /* padding: 10px 15px; */
     margin-top: 10px;
     align-self: flex-end;
     border-radius: 10px;
     border: 2px solid transparent;
     background-color: rgb(37, 122, 37);
     font-weight: 600;
+    width: 100px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 form .submit:hover{
     border-color: rgb(37, 122, 37);
@@ -103,6 +108,20 @@ form .submit:active{
     background-color: rgba(37, 122, 37, 0.411);
 }
 
+form .submit .loader{
+    width: 20px;
+    height: 20px;
+    border: 2px solid   rgb(37, 122, 37);
+    animation: loader 1s  infinite  ease-out;
+}
+@keyframes loader{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
 .or{
     border: 1px solid #7c7c7c;
 }
