@@ -27,27 +27,13 @@ export default function Sign_up() {
   };
 
   const onSubmit = async (data) => {
-    try {
-      console.log("Submitting Data:", data);
-  
-      const response = await fetch("/api/sign-up", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-  
-      if (!response.ok) {
-        console.error("API Error:", response.statusText);
-        return;
-      }
-  
-      const result = await response.json();
-      console.log("API Response:", result);
-    } catch (error) {
-      console.error("Fetch Error:", error.message);
-    }
+    const a = await fetch("/api/sign-up", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    const result = await a.json();
   };
-  
 
   const handleUserExist = async (value) => {
     const res = await fetch("/api/usernameExist", {

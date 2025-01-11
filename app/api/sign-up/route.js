@@ -6,22 +6,11 @@ import { userinfos } from "@/models/userinfo"; // Uncomment and use if needed
 export async function POST(request) {
     try {
         // Connect to MongoDB
-       await  mongoose.connect(connectionSrt, {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-              })
-
-        
-
+        await mongoose.connect(connectionSrt)
         const data = await request.json();
+        const user = await userinfos.create({ name: data.name, email: data.email, password: data.password });
+        return NextResponse.json({ success: true, data: user });
 
-     
-
-        const user = await userinfos.create({ name:data.name ,  email:data.email,password:data.password });
-        
-
-        return NextResponse.json({ success: true, data :user});
-        
     } catch (error) {
         return NextResponse.json({ success: false, data: error.message });
     }
