@@ -32,7 +32,7 @@ export default function Sign_up() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-    // const result = await a.json();
+    const result = await a.json();
   };
 
   const handleUserExist = async (value) => {

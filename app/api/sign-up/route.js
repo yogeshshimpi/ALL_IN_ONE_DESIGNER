@@ -6,7 +6,7 @@ import { userinfos } from "@/models/userinfo"; // Uncomment and use if needed
 export async function POST(request) {
     try {
         // Connect to MongoDB
-        mongoose.connect(connectionSrt, {
+       await  mongoose.connect(connectionSrt, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
               })
