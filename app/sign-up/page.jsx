@@ -27,7 +27,7 @@ export default function Sign_up() {
   };
 
   const onSubmit = async (data) => {
-    const a = await fetch("/api/sign-up", {
+    const a = await fetch("https://all-in-one-designer.vercel.app/api/sign-up", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
