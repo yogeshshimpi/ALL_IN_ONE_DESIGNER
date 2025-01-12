@@ -1,0 +1,18 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64"
+  width="128"
+  height="128"
+>
+  <!-- Outer Circle -->
+  <circle cx="32" cy="32" r="30" fill="#FFC107" />
+
+  <!-- Inner Shapes -->
+  <rect x="16" y="16" width="32" height="32" fill="#FFFFFF" />
+  <rect x="20" y="20" width="24" height="4" fill="#FFC107" />
+  <rect x="20" y="28" width="12" height="4" fill="#FFC107" />
+  <rect x="20" y="36" width="16" height="4" fill="#FFC107" />
+
+  <!-- Decorative Element -->
+  <circle cx="36" cy="30" r="6" fill="#FFD54F" />
+</svg>

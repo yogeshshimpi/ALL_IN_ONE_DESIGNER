@@ -3,8 +3,10 @@ import "./sign-up.css";
 import visibility from "../assets/visibility.svg";
 import visibility_off from "../assets/visibility_off.svg";
 import { useForm } from "react-hook-form";
+import { useNavigate ,Link } from "react-router-dom";
 
 const Sign_up = () => {
+  const naviagte = useNavigate()
   const {
     register,
     handleSubmit,
@@ -29,7 +31,10 @@ const Sign_up = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-    await a.json()
+    const result = await a.json()
+    if(result){
+      naviagte('/sign-in')
+    }
   };
 
   const handleUserExist = async (value)=>{
@@ -157,7 +162,7 @@ const Sign_up = () => {
         <span className="or"></span>
         <div className="sign_in">
           <div>
-            Don' t hava an account? <button><a href="/sign-in">Sign In</a></button>
+            Don' t hava an account? <button><Link to="/sign-in">Sign In</Link></button>
           </div>
         </div>
       </section>

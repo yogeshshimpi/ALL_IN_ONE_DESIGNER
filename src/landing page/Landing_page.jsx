@@ -1,4 +1,5 @@
 import "./Landing_page.css";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from "../assets/logo black.png";
 import menu from "../assets/menu.svg";
@@ -20,6 +21,7 @@ const useWindowWidth = () => {
 };
 
 const Landing_page = () => {
+  const navigate = useNavigate()
   const width = useWindowWidth();
   const [dropDown, setDropDown] = useState(false);
   const [btnClone, setBtnClone] = useState(false);
@@ -39,7 +41,7 @@ const Landing_page = () => {
     setBtnClone(true);
     setTimeout(() => {
       setBtnClone(false);
-      window.location.href = "/sign-up";
+      navigate('/sign-up')
     }, 1000);
   };
 
@@ -94,24 +96,24 @@ window.location.href='/home'
         ) : (
           <ul className="navigation">
             <li>
-              <a href="">
+              <Link href="">
                 Product <span></span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="">
+              <Link href="">
                 Tutorial <span></span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="">
+              <Link href="">
                 About <span></span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="">
+              <Link href="">
                 Contact Us <span></span>
-              </a>
+              </Link>
             </li>
           </ul>
         )}

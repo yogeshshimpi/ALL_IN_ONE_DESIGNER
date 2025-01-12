@@ -1,0 +1,15 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64"
+  width="128"
+  height="128"
+>
+  <!-- Outer Circle -->
+  <circle cx="32" cy="32" r="30" fill="#217346" />
+
+  <!-- Inner Rectangle -->
+  <rect x="16" y="16" width="32" height="32" rx="4" fill="#FFFFFF" />
+
+  <!-- "X" Letter -->
+  <path d="M20 24h4l3 4 3-4h4l-4 6 4 6h-4l-3-4-3 4h-4l4-6-4-6z" fill="#217346" />
+</svg>

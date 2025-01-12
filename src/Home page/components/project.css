@@ -1,0 +1,48 @@
+.project{
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.welcome-sec{
+    height: 200px;
+    background: radial-gradient(circle, rgba(218,0,255,0.7036064425770308) 0%, rgba(158,0,255,1) 100%);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.welcome-sec .welcome-text{
+    font-size: 30px;
+    font-family: "poppins",sans-serif;
+    font-weight: 600;
+}
+.welcome-sec .web-name{
+    font-size: 80px;
+    font-family: "Ubuntu",sans-serif;
+    font-weight: 600;
+}
+.tools-sec{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
+}
+.tools-sec .tools{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80px;
+    justify-content: space-between;
+    gap: 5px;
+    width: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'poppins';
+}
+.tools-sec .tools img{
+    width: 60px;
+}

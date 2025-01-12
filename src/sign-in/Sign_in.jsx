@@ -3,10 +3,11 @@ import  "./Sign_in.css";
 import visibility from "../assets/visibility.svg";
 import visibility_off from "../assets/visibility_off.svg";
 import { useForm } from "react-hook-form";
+import { useNavigate ,Link} from "react-router-dom";
 
 const Sign_in = () => {
   const [EyePassword, setEyePassword] = useState(false);
-
+  const navigate = useNavigate()
 
   const handleInputType = () => {
     setEyePassword(!EyePassword);
@@ -30,7 +31,7 @@ const Sign_in = () => {
     });
     const result = await a.json()
     if(result.message === "success"){
-      window.location.href = "/home"
+      navigate("/home")
     }else if(result.message === "usernameInvalid"){
         setError('name',{
           message:"Username is not match",
@@ -114,7 +115,7 @@ const Sign_in = () => {
         <span className="or"></span>
         <div className="sign_in">
           <div>
-            Don' t hava an account? <button><a href="/sign-up">Sign Up</a></button>
+            Don' t hava an account? <button><Link to="/sign-up">Sign Up</Link></button>
           </div>
         </div>
       </section>
