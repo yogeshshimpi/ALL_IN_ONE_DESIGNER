@@ -1,8 +1,11 @@
 import "./App.css";
-import Home from "./Home page/Home";
-import Landing_page from "./landing page/Landing_page";
-import Sign_in from "./sign-in/Sign_in";
-import Sign_up from "./sign-up/Sign_up";
+import React, { Suspense } from 'react';
+
+// Lazy loading components
+const Landing_page = React.lazy(() => import('./landing page/Landing_page'));
+const Home = React.lazy(() => import('./Home page/Home'));
+const Sign_in = React.lazy(() => import('./sign-in/Sign_in'));
+const Sign_up = React.lazy(() => import('./sign-up/Sign_up'));
 import { createBrowserRouter,RouterProvider } from "react-router-dom";
 
 const App =  () => {
