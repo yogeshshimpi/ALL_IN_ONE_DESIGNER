@@ -1,0 +1,144 @@
+.main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #292929;
+    color: white;
+}
+
+.sign-up{
+    width: 600px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    padding: 30px 100px;
+    gap: 30px;
+}
+
+.heading{
+    font-family: "Ubuntu";
+    font-size: 49px;
+    font-weight: 700;
+}
+.sub-heading{
+    font-size: 18px;
+    font-weight: 600;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+form div{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+form  input{
+    height: 50px;
+    padding: 15px 10px;
+    background-color: rgba(255, 255, 255, 0.075);
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-size: 16px;
+    /* width: 100%; */
+    width: 100%;
+    color: white;
+}
+form input:focus{
+    border: 2px solid #7c7c7c;
+}
+.password-field{
+    height: 50px;
+    flex-direction: row  !important;
+    align-items: center;
+    border-radius: 5px;
+    gap: 0px;
+    background-color: rgba(255, 255, 255, 0.075);
+    border: 2px solid transparent;
+}.password-field:focus-within{
+    border-color: #7c7c7c;
+}
+.password-field input{
+    background-color: transparent;
+    height: 100%;
+}
+
+.password-field input:focus{
+    border:none;
+}
+.password-field .pass{
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.password-field .pass .image{
+    width: 20px ;
+    /* height: 20px; */
+}
+form div .error{
+    margin-left: 10px;
+    font-size: 13px;
+    color: var(--color);
+    height: 13px;
+}
+form .submit{
+    width: 100px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px;
+    margin-top: 10px;
+    align-self: flex-end;
+    border-radius: 10px;
+    color: rgb(0, 0, 0);
+    border: 2px solid transparent;
+    background-color: rgb(255, 255, 255);
+    font-weight: 500;
+    transition-duration: 0.3s;
+}
+form .submit:hover{
+    border-color: rgba(255, 255, 255, 0.614);
+    color: rgb(255, 255, 255);
+    background-color: transparent;
+}
+
+form .submit:active{
+    background-color: rgba(255, 255, 255, 0.411);
+}
+form .submit .loader{
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: 2px solid   rgb(232, 0, 0);
+    animation: loader 1s  infinite  ease-out;
+}
+@keyframes loader{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+.or{
+    border: 1px solid #7c7c7c;
+}
+.sign_in{
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+}
+.sign_in a{
+    text-decoration: none;
+    color: #5151d3;
+}
+.error-border{
+    border-color: var(--color) !important;
+}

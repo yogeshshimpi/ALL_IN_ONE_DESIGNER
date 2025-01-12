@@ -1,2 +1,0 @@
-const{username,password} = process.env
-export const connectionSrt = "mongodb+srv://yogeshshimpi320:"+password+"@all-in-one-designer.dnphm.mongodb.net/all-in-one-designer?retryWrites=true&w=majority&appName=all-in-one-designer"
