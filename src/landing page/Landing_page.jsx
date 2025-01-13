@@ -62,7 +62,7 @@ const Landing_page = () => {
 
     const result = await response.json()
     if(result.message){
-window.location.href='/home'
+      navigate('./home')
     }
       
   }
