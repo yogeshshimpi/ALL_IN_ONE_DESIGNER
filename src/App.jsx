@@ -2,13 +2,13 @@ import "./App.css";
 import React, { Suspense } from "react";
 
 const Landing_page = React.lazy(() => import("./landing page/Landing_page"));
-const Home = React.lazy(() => import("./Home page/Home"));
+const Home = React.lazy(() => import("./Homepage/Home"));
 const Sign_in = React.lazy(() => import("./sign-in/Sign_in"));
 const Sign_up = React.lazy(() => import("./sign-up/Sign_up"));
-const Project = React.lazy(() => import("./Home page/components/Project"));
-const Teamproject = React.lazy(() => import("./Home page/components/teamProject"));
-const Uploadedproject = React.lazy(() => import("./Home page/components/uploadedProject"));
-const Projecttemplate = React.lazy(() => import("./Home page/components/projectTemplate"));
+const Project = React.lazy(() => import("./Homepage/components/Project"));
+const Teamproject = React.lazy(() => import("./Homepage/components/teamProject"));
+const Uploadedproject = React.lazy(() => import("./Homepage/components/uploadedProject"));
+const Projecttemplate = React.lazy(() => import("./Homepage/components/projectTemplate"));
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
