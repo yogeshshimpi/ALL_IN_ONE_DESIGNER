@@ -1,72 +1,75 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import cors from 'cors'
-import { user_detail } from '../models/userinfos.js'; 
+import cors from 'cors';
+import { user_detail } from '../models/userinfos.js';
 import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
 
-await mongoose.connect('mongodb://localhost:27017/all-in-one-designer')
+dotenv.config();
+
 const app = express();
+const port = process.env.PORT || 3000;
 
-const port = 3000;
+// Database connection
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log('MongoDB connected');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+  }
+};
+
+connectDB();  // Call the DB connection function
+
+// Middleware
 app.use(cors({
-  origin: ['http://localhost:3001', 'http://localhost:5173'], // Allow multiple origins
-  credentials: true 
+  origin: ['http://localhost:3001', 'http://localhost:5173', 'https://all-in-one-designer.vercel.app'], 
+  credentials: true
 }));
-
 app.use(bodyParser.json());
 app.use(express.json()); 
 app.use(cookieParser());
 
-
-app.use(express.json());
-
-
-
-
+// Routes
 app.post('/api/sign-up', async (req, res) => {
-  const {name , email, password} = req.body
+  const { name, email, password } = req.body;
   try {
-    const data =  new user_detail({name:name,email:email,password:password})
-    await data.save()
-    res.status(200).json({message:true}) 
+    const data = new user_detail({ name, email, password });
+    await data.save();
+    res.status(200).json({ message: true });
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error', error });
   }
 });
 
-app.post('/api/nameExist', async (req,res)=>{
+app.post('/api/nameExist', async (req, res) => {
+  const { name } = req.body;
   try {
-    const {name} = req.body
-
-    const result = await user_detail.findOne({name:name})
-
-    if(!result){
-      res.json({message:true})
-    }else{
-    res.json({message:false})
-
+    const result = await user_detail.findOne({ name });
+    if (!result) {
+      res.json({ message: true });
+    } else {
+      res.json({ message: false });
     }
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error', error });
-    
   }
-})
-app.post('/api/sign-in', async(req, res) => {
-  try {
-    const { name, password } = req.body;
-    const result = await user_detail.findOne({ name: name });
+});
 
+app.post('/api/sign-in', async (req, res) => {
+  const { name, password } = req.body;
+  try {
+    const result = await user_detail.findOne({ name });
     if (result) {
-      const validUser = await user_detail.findOne({ name: name, password: password });
+      const validUser = await user_detail.findOne({ name, password });
       if (validUser) {
-        console.log("done");
-        
-        res.cookie('userinfo', JSON.stringify({ name: name, password: password }), {
-          httpOnly: true, 
-          secure: false,  
+        res.cookie('userinfo', JSON.stringify({ name, password }), {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production', // set to true in production for HTTPS
           sameSite: 'Strict',
-          maxAge: 14 * 24 * 60 * 60 * 1000, 
+          maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days
         });
         res.json({ message: "success" });
       } else {
@@ -80,36 +83,34 @@ app.post('/api/sign-in', async(req, res) => {
   }
 });
 
-app.post('/api/redirect-home',async (req,res)=>{
+app.post('/api/redirect-home', async (req, res) => {
+  const { name, password } = req.body;
   try {
-    const{name,password } = req.body
-  const result = await user_detail.findOne({name:name,password:password})
-  if(result){
-      res.json({message:true})
-  }else{
-    res.json({message:false})
-  }
+    const result = await user_detail.findOne({ name, password });
+    if (result) {
+      res.json({ message: true });
+    } else {
+      res.json({ message: false });
+    }
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error', error });
   }
-})
+});
+
 app.post('/api/get-cookie', (req, res) => {
   try {
     if (!req.cookies.userinfo) {
-      console.error('Userinfo cookie is not set or undefined');
       return res.status(400).json({ message: 'Userinfo cookie not found' });
     }
     const userinfo = JSON.parse(req.cookies.userinfo);
     const { name, password } = userinfo;
-
-    res.json({ message: "success", data:{name,password} });
+    res.json({ message: "success", data: { name, password } });
   } catch (error) {
-    console.error('Failed to parse userinfo cookie:', error);
-    res.status(400).json({ message: 'Invalid or missing userinfo cookie' });
+    res.status(400).json({ message: 'Invalid or missing userinfo cookie', error });
   }
 });
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}/`);
+  console.log(`Server running on http://localhost:${port}/`);
 });
