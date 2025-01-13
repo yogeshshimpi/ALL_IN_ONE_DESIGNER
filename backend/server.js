@@ -68,7 +68,7 @@ app.post('/api/sign-in', async (req, res) => {
         res.cookie('userinfo', JSON.stringify({ name, password }), {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production', // set to true in production for HTTPS
-          sameSite: 'Strict',
+          sameSite: 'None',
           maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days
         });
         res.json({ message: "success" });
