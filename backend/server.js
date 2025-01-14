@@ -28,7 +28,7 @@ connectDB();  // Call the DB connection function
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3001', 'http://localhost:5174', 'https://all-in-one-designer.vercel.app'],
+  origin: ['http://localhost:3001', 'http://localhost:5174', 'https://all-in-one-designer.vercel.app/'],
   credentials: true
 }));
 app.use(bodyParser.json());
@@ -72,6 +72,7 @@ app.post('/api/sign-in', async (req, res) => {
           httpOnly: true,
           secure: true , // set to true in production for HTTPS
           sameSite: 'Strict',
+          domain: 'all-in-one-designer.vercel.app',
           maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days
         });
         res.json({ message: "success" });
@@ -176,6 +177,7 @@ app.post('/api/sendOtp', async(req, res) => {
         httpOnly: true,
         secure: true,  // Set to true for production
         sameSite: 'Strict',
+        domain: 'all-in-one-designer.vercel.app',
         maxAge: 5 * 60 * 1000, // Expires in 5 minutes
       });
       res.json({message:false})
