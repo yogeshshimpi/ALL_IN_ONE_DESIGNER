@@ -70,7 +70,7 @@ app.post('/api/sign-in', async (req, res) => {
       if (validUser) {
         res.cookie('userinfo', JSON.stringify({ name, password }), {
           httpOnly: true,
-          secure: process.env.NODE_ENV === 'production', // set to true in production for HTTPS
+          secure: process.env.NODE_ENV , // set to true in production for HTTPS
           sameSite: 'Strict',
           maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days
         });
@@ -174,7 +174,7 @@ app.post('/api/sendOtp', async(req, res) => {
       const otpHash =await bcrypt.hash(`${otp}`,12)
       res.cookie('loginotp', JSON.stringify({ otpHash,name }), {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',  // Set to true for production
+        secure: process.env.NODE_ENV,  // Set to true for production
         sameSite: 'Strict',
         maxAge: 5 * 60 * 1000, // Expires in 5 minutes
       });
