@@ -1,10 +1,10 @@
-import { useRef, useState } from "react";
+import React,{ useRef, useState } from "react";
 import "./sign-up.css";
 import visibility from "../assets/visibility.svg";
 import visibility_off from "../assets/visibility_off.svg";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import ReverseTimer from "../Reversetimer/Reversetimer";
+const ReverseTimer = React.lazy(()=>import("../Reversetimer/Reversetimer"))
 
 const Sign_up = () => {
   const naviagte = useNavigate();
