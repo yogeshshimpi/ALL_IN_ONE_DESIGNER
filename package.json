@@ -8,6 +8,7 @@
     "dev": "vite",
     "server": "nodemon ./backend/server.js",
     "build": "vite build",
+    "start": "node ./backend/server.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
