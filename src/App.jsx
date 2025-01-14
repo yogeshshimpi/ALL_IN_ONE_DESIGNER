@@ -9,6 +9,7 @@ const Project = React.lazy(() => import("./Homepage/components/Project"));
 const Teamproject = React.lazy(() => import("./Homepage/components/teamProject"));
 const Uploadedproject = React.lazy(() => import("./Homepage/components/uploadedProject"));
 const Projecttemplate = React.lazy(() => import("./Homepage/components/projectTemplate"));
+const ForgetPassword = React.lazy(()=> import("./Forgetpassword/Forgetpassword"))
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -19,10 +20,9 @@ const App = () => {
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/" element={<Landing_page />} />
-
             <Route path="/sign-in" element={<Sign_in />} />
             <Route path="/sign-up" element={<Sign_up />} />
-
+            <Route path="/forgetpassword" element={<ForgetPassword/>}/>
             <Route path="/home" element={<Home />}>
               <Route index element={<Project />} />
               <Route path="team-project" element={<Teamproject />} />

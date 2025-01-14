@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate ,Link} from "react-router-dom";
 
 const Sign_in = () => {
-  const [EyePassword, setEyePassword] = useState(false);
+  const [EyePassword, setEyePassword] = useState(true);
   const navigate = useNavigate()
 
   const handleInputType = () => {
@@ -111,11 +111,14 @@ const Sign_in = () => {
           <button disabled={isSubmitting} className="submit" type="submit">
             {isSubmitting ? <div className="loader"></div> : "submit"}
           </button>
+          <div className="forget">
+            <Link to="/forgetpassword" className="Link">Forget password</Link>
+          </div>
         </form>
         <span className="or"></span>
         <div className="sign_in">
           <div>
-            Don' t hava an account? <button><Link to="/sign-up">Sign Up</Link></button>
+            Don' t hava an account? <button><Link  to="/sign-up">Sign Up</Link></button>
           </div>
         </div>
       </section>
