@@ -1,6 +1,6 @@
 .main{
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     justify-content: center;
     background-color: #292929;
@@ -25,9 +25,17 @@
 form{
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 10px;
+    justify-content: space-between;
 }
-form div{
+form .form-validation{
+    display: flex;  
+    flex-direction: column;
+    gap: 10px;
+    height: 400px;
+    justify-content: center;
+}
+form .form-validation div{
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -137,4 +145,35 @@ form .submit .loader{
 }
 .error-border{
     border-color: var(--color) !important;
+}
+
+form .button{
+    display: flex;
+    justify-content: space-between;
+}
+form .otp-validation{
+    display: flex;  
+    flex-direction: column;
+    gap: 10px;
+    height: 400px;
+    justify-content: space-between;
+}
+.otp-validation .otpfield{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    gap: 30px;
+}
+
+.otp-validation .otpfield .resend-timer{
+    display: flex;
+    justify-content: space-between;
+}
+.otp-validation .otp-input{
+    display: flex;
+    gap: 10px;
+}
+.otp-validation .otp-input input{
+    width: 100% !important;
+    text-align: center;
 }
