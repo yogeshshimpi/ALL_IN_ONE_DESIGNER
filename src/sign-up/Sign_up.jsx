@@ -1,28 +1,32 @@
-import React,{ useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import "./sign-up.css";
 import visibility from "../assets/visibility.svg";
 import visibility_off from "../assets/visibility_off.svg";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-const ReverseTimer = React.lazy(()=>import("../Reversetimer/Reversetimer"))
+const ReverseTimer = React.lazy(() => import("../Reversetimer/Reversetimer"));
 
 const Sign_up = () => {
   const naviagte = useNavigate();
-    const [otp, setOtp] = useState(new Array(6).fill(""));
-    const length = otp.length;
+  const [otp, setOtp] = useState(new Array(6).fill(""));
+  const length = otp.length;
   const {
     register,
     handleSubmit,
     watch,
     trigger,
+    getValues,
+    setError,
+    clearErrors,
     formState: { errors, isSubmitting },
   } = useForm();
   const [EyePassword, setEyePassword] = useState(false);
   const [EyeConfirm, setEyeConfirm] = useState(false);
-  const [submit, setSubmit] = useState(true); 
-   const [o, seto] = useState(null);
-    const inputRefs = useRef([]);
-  
+  const [submit, setSubmit] = useState(false);
+  const [o, seto] = useState(null);
+  const inputRefs = useRef([]);
+  const [timer,setTimer] = useState(0)
+
   const password = watch("password");
 
   const handleInputType = (e) => {
@@ -34,14 +38,25 @@ const Sign_up = () => {
   };
 
   const onSubmit = async (data) => {
+    const {name,email,password} = data
+    const otp = o
+    console.log({name,email,password,otp})
     const a = await fetch("http://localhost:3000/api/sign-up", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify({name,email,password,otp}),
+      credentials:'include',
     });
     const result = await a.json();
-    if (result) {
-      naviagte("/sign-in");
+    if (result.message) {
+      naviagte('/sign-in')
+    }else if(result.message === "server"){
+      alert("The server was not responding")
+    }else{
+      setError('otp',{
+        type:"maunal",
+        message:"The otp is invalid"
+      })
     }
   };
 
@@ -54,29 +69,43 @@ const Sign_up = () => {
     const result = await a.json();
     return result.message ? true : false;
   };
-  const handleSubmitForm =async (value) => {
-    if(value === "next"){
-      const name = await trigger("name")
-      const email = await trigger("email")
-      const password = await trigger("password")
-      const confirmPassword = await trigger("confirmPassword")
-      
-      if(name && email && password && confirmPassword){
-        setSubmit(true)
+  const handleSubmitForm = async (value) => {
+    if (value === "next") {
+      const name = await trigger("name");
+      const email = await trigger("email");
+      const password = await trigger("password");
+      const confirmPassword = await trigger("confirmPassword");
+
+      if (name && email && password && confirmPassword) {
+        setSubmit(true);
+        const data = { email: getValues("email") };
+        const res = await fetch('http://localhost:3000/api/sendSignUpOtp',{
+          method:"POST",
+          headers: { "Content-Type": "application/json" },
+          body:JSON.stringify(data),
+          credentials:'include',
+        })
+        const result = await res.json() 
+        if(result.message){
+        setSubmit(true);
+        setTimer(300) 
+        }
       }
     }
-    if(value === "name"){
-       await trigger("name")
+    if (value === "name") {
+      await trigger("name");
     }
-    if(value === "email"){
-      await trigger("email")
-    }if(value === "password"){
-      await trigger("password")
-    }if(value === "confirmPassword"){
-      await trigger("confirmPassword")
+    if (value === "email") {
+      await trigger("email");
     }
-    if(value === "back"){
-      setSubmit(false)
+    if (value === "password") {
+      await trigger("password");
+    }
+    if (value === "confirmPassword") {
+      await trigger("confirmPassword");
+    }
+    if (value === "back") {
+      setSubmit(false);
     }
   };
   const handleChange = (e, index) => {
@@ -90,15 +119,14 @@ const Sign_up = () => {
       inputRefs.current[index + 1].focus();
     }
 
-    // if (isNaN(o)) {
-    //   setError("otp", {
-    //     type: "manual",
-    //     message: "Please enter the valid otp ",
-    //   });
-    // } else {
-    //   clearErrors("otp");
-    // }
-    
+    if (isNaN(o)) {
+      setError("otp", {
+        type: "manual",
+        message: "Please enter the valid otp ",
+      });
+    } else {
+      clearErrors("otp");
+    }
   };
   const handleKeyDown = (e, index) => {
     if (
@@ -118,52 +146,62 @@ const Sign_up = () => {
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           {submit ? (
             <div className="otp-validation">
-              <div className="text">Enter 6-digit code sent to your email. This code is valid for the next 5 minutes</div>
+              <div className="text">
+                Enter 6-digit code sent to your email. This code is valid for
+                the next 5 minutes
+              </div>
               <div className="otpfield">
-              <div className="otp-input">
-              {otp.map((value, index) => {
-                return (
-                  <input
-                    key={index}
-                    type="text"
-                    value={value}
-                    onChange={(e) => {
-                      handleChange(e, index);
-                    }}
-                    ref={(input) => (inputRefs.current[index] = input)}
-                    onKeyDown={(e) => {
-                      handleKeyDown(e, index);
-                    }}
-                    placeholder="0"
-                  />
-                );
-              })}
-            </div>
-            <div className="resend-timer">..resend it<ReverseTimer initialTime={0}/></div>
-            </div>
-            <div></div>
+                <div className="otp-input">
+                  {otp.map((value, index) => {
+                    return (
+                      <input
+                        key={index}
+                        type="text"
+                        value={value}
+                        onChange={(e) => {
+                          handleChange(e, index);
+                        }}
+                        ref={(input) => (inputRefs.current[index] = input)}
+                        onKeyDown={(e) => {
+                          handleKeyDown(e, index);
+                        }}
+                        placeholder="0"
+                      />
+                    );
+                  })}
+                </div>
+                <div className="resend-timer">
+                  <span>Otp valid for 5 minute</span>
+                  {submit?(
+                  <ReverseTimer initialTime={timer} />
+                  ):(<span></span>)}
+                </div>
+              </div>
+              <div></div>
             </div>
           ) : (
             <div className="form-validation">
               <div className="username">
                 <input
                   type="text"
-                  onKeyUp={()=>{handleSubmitForm("name")}}
+                  onKeyUp={() => {
+                    handleSubmitForm("name");
+                  }}
                   placeholder="username"
                   {...register("name", {
                     required: { value: true, message: "Username is required" },
                     minLength: {
                       value: 3,
-                      message: "Minimum length 3 required",
+                      message: "Minimum length is 3 ",
                     },
                     maxLength: {
                       value: 15,
-                      message: "Maximum length 15 required",
+                      message: "Maximum length is 15 ",
                     },
                     pattern: {
-                      value: /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d).+$/,
+                      value: /^\S*$/,
                       message:
-                        "Username should contain special character and numeric value",
+                        "Username should not contain any spaces",
                     },
                     validate: {
                       userExist: async (value) =>
@@ -180,7 +218,9 @@ const Sign_up = () => {
                 <input
                   type="text"
                   placeholder="Email"
-                  onKeyUp={()=>{handleSubmitForm("email")}}
+                  onKeyUp={() => {
+                    handleSubmitForm("email");
+                  }}
                   {...register("email", {
                     required: { value: true, message: "Email is required" },
                     pattern: {
@@ -197,7 +237,9 @@ const Sign_up = () => {
                 <div className="password-field">
                   <input
                     type={EyePassword ? "password" : "text"}
-                  onKeyUp={()=>{handleSubmitForm("password")}}
+                    onKeyUp={() => {
+                      handleSubmitForm("password");
+                    }}
                     placeholder="Password"
                     {...register("password", {
                       required: {
@@ -240,7 +282,9 @@ const Sign_up = () => {
                 <div className="password-field">
                   <input
                     type={EyeConfirm ? "password" : "text"}
-                  onKeyUp={()=>{handleSubmitForm("confirmPassword")}}
+                    onKeyUp={() => {
+                      handleSubmitForm("confirmPassword");
+                    }}
                     placeholder="Confirm password"
                     {...register("confirmPassword", {
                       required: {
@@ -275,7 +319,9 @@ const Sign_up = () => {
               <button
                 className="submit"
                 type="button"
-                onClick={()=>{handleSubmitForm("back")}}>
+                onClick={() => {
+                  handleSubmitForm("back");
+                }}>
                 Back
               </button>
               <button disabled={isSubmitting} className="submit" type="submit">
@@ -283,7 +329,12 @@ const Sign_up = () => {
               </button>
             </div>
           ) : (
-            <button className="submit" onClick={()=>{handleSubmitForm("next")}} type="button">
+            <button
+              className="submit"
+              onClick={() => {
+                handleSubmitForm("next");
+              }}
+              type="button">
               Next
             </button>
           )}

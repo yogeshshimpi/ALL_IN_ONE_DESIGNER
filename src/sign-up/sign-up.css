@@ -1,6 +1,6 @@
 .main{
     width: 100%;
-    height: 100vh;
+    height: 100% !important;
     display: flex;
     justify-content: center;
     background-color: #292929;
@@ -8,12 +8,12 @@
 }
 
 .sign-up{
-    width: 600px;
+    width: 400px;
     height: 100%;
     display: flex;
     flex-direction: column;
     /* justify-content: center; */
-    padding: 30px 100px;
+    padding: 30px 10px;
     gap: 30px;
 }
 
@@ -168,6 +168,9 @@ form .otp-validation{
 .otp-validation .otpfield .resend-timer{
     display: flex;
     justify-content: space-between;
+}
+.otp-validation .otpfield .resend-timer button{
+    color: white;
 }
 .otp-validation .otp-input{
     display: flex;

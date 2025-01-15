@@ -1,27 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const ReverseTimer = ({ initialTime }) => {
-    const [timeLeft, setTimeLeft] = useState(initialTime);
+  const [timeLeft, setTimeLeft] = useState(initialTime);
 
-    useEffect(() => {
-        if (timeLeft <= 0) return;
+  // Reset timer whenever the `initialTime` prop changes
+  useEffect(() => {
+    setTimeLeft(initialTime);
+  }, [initialTime]);
 
-        const timer = setInterval(() => {
-            setTimeLeft((prevTime) => prevTime - 1);
-        }, 1000);
+  // Timer countdown logic
+  useEffect(() => {
+    if (timeLeft <= 0) return; // Stop timer if it reaches 0
 
-        return () => clearInterval(timer); // Cleanup on unmount
-    }, [timeLeft]);
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => prevTime - 1);
+    }, 1000);
 
-    const formatTime = (seconds) => {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    };
+    return () => clearInterval(timer); // Cleanup timer on unmount or when `timeLeft` changes
+  }, [timeLeft]);
 
-    return (
-            <p>{timeLeft > 0 ? formatTime(timeLeft) : '0.00'}</p>
-    );
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  };
+
+  return <p>{timeLeft > 0 ? formatTime(timeLeft) : "00:00"}</p>;
 };
 
 export default ReverseTimer;

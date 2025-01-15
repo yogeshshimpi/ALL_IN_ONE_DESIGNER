@@ -28,7 +28,7 @@ connectDB();  // Call the DB connection function
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3001', 'http://localhost:5174', 'https://all-in-one-designer.vercel.app/'],
+  origin: ['http://localhost:3001', 'http://localhost:5173', 'https://all-in-one-designer.vercel.app/'],
   credentials: true
 }));
 app.use(bodyParser.json());
@@ -37,11 +37,23 @@ app.use(cookieParser());
 
 // Routes
 app.post('/api/sign-up', async (req, res) => {
-  const { name, email, password } = req.body;
   try {
-    const data = new user_detail({ name, email, password });
-    await data.save();
-    res.status(200).json({ message: true });
+  const { name, email, password,otp } = req.body;
+    const cookiedata = req.cookies.loginotp
+    if(cookiedata){
+      const {otpHash:Hashotp,email:cookieEmail} = JSON.parse(cookiedata)
+    const isValidOtp = await bcrypt.compare(otp,Hashotp)
+    console.log(isValidOtp)
+    if(email === cookieEmail && isValidOtp){
+      const data = new user_detail({name:name,email:email,password:password})
+      await data.save()
+      res.json({message:true})
+    }else{
+      res.json({message:false})
+    }
+    }else{
+      res.json({message:"server"})
+    }
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error', error });
   }
@@ -60,6 +72,187 @@ app.post('/api/nameExist', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error', error });
   }
 });
+
+app.post('/api/redirect-home', async (req, res) => {
+  const { name, password } = req.body;
+  try {
+    const result = await user_detail.findOne({ name, password });
+    if (result) {
+      res.json({ message: true });
+    } else {
+      res.json({ message: false });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error', error });
+  }
+});
+
+
+
+app.post('/api/get-cookie', (req, res) => {
+  try {
+    if (!req.cookies.userinfo) {
+      return res.status(400).json({ message: 'Userinfo cookie not found' });
+    }
+    const userinfo = JSON.parse(req.cookies.userinfo);
+    const { name, password } = userinfo;
+    res.json({ message: "success", data: { name, password } });
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid or missing userinfo cookie', error });
+  }
+});
+
+const generateOTP = () => Math.floor(100000 + Math.random() * 900000);
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+    port: 465,
+  service: "Gmail",
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+  secure:true
+})
+
+app.post('/api/verifiedOtp',async (req, res) => {
+  const { name, password, otp } = req.body
+  console.log(name, password, otp)
+  const cookieData = req.cookies.loginotp
+  console.log(cookieData)
+  if(cookieData){
+      const {name:cookieName,otpHash} = JSON.parse(cookieData)
+      const otpString = String(otp)
+    if(name === cookieName){
+    const isValidOtp = await bcrypt.compare(otpString,otpHash)
+      if(isValidOtp){
+        await user_detail.updateOne({name:name},{password:password})
+        res.json({message:"success"})
+      }else{
+        res.json({message:"otpInvalid"})
+
+      }
+    }else{
+      res.json({message:"nameInvalid"})
+    }
+  }else{
+    res.json({message:"sendOtp"})
+  }
+
+})
+app.post('/api/sendOtp', async(req, res) => {
+  try {
+    const name = req.body.name
+    const otp = generateOTP()
+    const data = await user_detail.findOne({name:name})
+    if(data){
+      const email = data.email
+      const mailOptions = {
+        from: process.env.EMAIL,
+        to:email,
+        subject:"All In One Designer",
+        text:`Your otp code is ${otp}. It is valid for 5 minutes.`,
+      }
+      transporter.sendMail(mailOptions, (error,info)=>{
+        if (error) {
+          console.log("failed",error)
+          res.json({server:true})
+        }else{
+          console.log("done")
+        }
+      })
+      const otpHash = await bcrypt.hash(`${otp}`,12)
+      res.cookie('loginotp', JSON.stringify({ otpHash,name }), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV,  // Set to true for production
+        sameSite: 'Strict',
+        maxAge: 5 * 60 * 1000, // Expires in 5 minutes
+      });
+      res.json({message:false})
+    }else{
+      res.json({message:true})
+    }
+    // res.json({ message: true })
+  } catch (error) {
+    console.log(error)
+    res.json({ message: false })
+
+  }
+
+})
+
+app.post('/api/sendSignUpOtp', async (req,res)=>{
+  try {
+    const {email} = req.body
+    const otp = generateOTP()
+    console.log(email)
+      const mailOptions = {
+        from: process.env.EMAIL,
+        to:email,
+        subject:"All In One Designer",
+        text:`Your otp code is ${otp}. It is valid for 5 minutes.`,
+      }
+      transporter.sendMail(mailOptions, (error,info)=>{
+        if (error) {
+          console.log("failed",error)
+          res.json({server:true})
+        }else{
+          console.log("done")
+        }
+      })
+      const otpHash =await bcrypt.hash(`${otp}`,12)
+      res.cookie('loginotp', JSON.stringify({ otpHash,email }), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV,  // Set to true for production
+        sameSite: 'Strict',
+        maxAge: 5 * 60 * 1000, // Expires in 5 minutes
+      });
+      res.json({message:true})
+  
+      
+// sign-in section api
+
+app.post('/api/sendSignInOtp', async (req,res)=>{
+  const {name,password} = req.body
+  try {
+    const result = await user_detail.findOne({ name });
+    if (result) {
+      const validUser = await user_detail.findOne({ name, password });
+      if (validUser) {
+        console.log(validUser.email)
+        const otp = generateOTP()
+          const mailOptions = {
+            from: process.env.EMAIL,
+            to:validUser.email,
+            subject:"All In One Designer",
+            text:`Your otp code is ${otp}. It is valid for 5 minutes.`,
+          }
+          transporter.sendMail(mailOptions, (error,info)=>{
+            if (error) {
+              console.log("failed",error)
+              res.json({server:true})
+            }else{
+              console.log("done")
+            }
+          })
+          const otpHash = await bcrypt.hash(`${otp}`,12)
+          res.cookie('loginotp', JSON.stringify({ otpHash,name }), {
+            httpOnly: true,
+            secure: process.env.NODE_ENV,  // Set to true for production
+            sameSite: 'Strict',
+            maxAge: 5 * 60 * 1000, // Expires in 5 minutes
+          });
+        res.json({ message: "success" });
+      } else {
+        res.json({ message: "passwordInvalid" });
+      }
+    } else {
+      res.json({ message: "usernameInvalid" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error', error });
+  }
+})
 
 app.post('/api/sign-in', async (req, res) => {
   const { name, password } = req.body;
@@ -87,110 +280,18 @@ app.post('/api/sign-in', async (req, res) => {
   }
 });
 
-app.post('/api/redirect-home', async (req, res) => {
-  const { name, password } = req.body;
-  try {
-    const result = await user_detail.findOne({ name, password });
-    if (result) {
-      res.json({ message: true });
-    } else {
-      res.json({ message: false });
-    }
-  } catch (error) {
-    res.status(500).json({ message: 'Internal Server Error', error });
-  }
-});
 
-app.post('/api/get-cookie', (req, res) => {
-  try {
-    if (!req.cookies.userinfo) {
-      return res.status(400).json({ message: 'Userinfo cookie not found' });
-    }
-    const userinfo = JSON.parse(req.cookies.userinfo);
-    const { name, password } = userinfo;
-    res.json({ message: "success", data: { name, password } });
-  } catch (error) {
-    res.status(400).json({ message: 'Invalid or missing userinfo cookie', error });
-  }
-});
 
-const generateOTP = () => Math.floor(100000 + Math.random() * 900000);
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-    port: 465,
-  service: "Gmail",
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-  // secure:true
-})
-
-app.post('/api/verifiedOtp',async (req, res) => {
-  const { name, password, otp } = req.body
-  console.log(name, password, otp)
-  const cookieData = req.cookies.loginotp
-  console.log(cookieData)
-  if(cookieData){
-      const {name:cookieName,otpHash} = JSON.parse(cookieData)
-      console.log(otpHash)
-      const otpString = String(otp)
-    // console.log(isOtpValid)
-    if(name === cookieName){
-    const isValidOtp = await bcrypt.compare(otpString,otpHash)
-      if(isValidOtp){
-        res.json({message:"success"})
-      }else{
-        res.json({message:"otpInvalid"})
-
-      }
-    }else{
-      res.json({message:"nameInvalid"})
-    }
-  }else{
-    res.json({message:"sendOtp"})
-  }
-
-})
-app.post('/api/sendOtp', async(req, res) => {
-  try {
-    const name = req.body.name
-    const otp = generateOTP()
-    const data = await user_detail.findOne({name:name})
-    if(data){
-      const email = data.email
-      const mailOptions = {
-        from: process.env.EMAIL,
-        to:email,
-        subject:"All In One Designer",
-        text:`Your otp code is ${otp}. It is valid for 5 minutes.`,
-      }
-      transporter.sendMail(mailOptions, (error)=>{
-        if (error) {
-          console.log("failed",error)
-          res.json({server:true})
-        }
-      })
-      const otpHash =await bcrypt.hash(`${otp}`,12)
-      res.cookie('loginotp', JSON.stringify({ otpHash,name }), {
-        httpOnly: true,
-        secure: process.env.NODE_ENV,  // Set to true for production
-        sameSite: 'Strict',
-        maxAge: 5 * 60 * 1000, // Expires in 5 minutes
-      });
-      res.json({message:false})
-    }else{
-      res.json({message:true})
-    }
     // res.json({ message: true })
   } catch (error) {
     console.log(error)
     res.json({ message: false })
 
   }
-
 })
+
+
+
 
 // Start the server
 app.listen(port, () => {
