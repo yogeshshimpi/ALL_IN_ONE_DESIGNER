@@ -53,6 +53,7 @@ const Sign_in = () => {
   };
 
   const handleSubmitForm = async (value) => {
+    try{
     if (value === "next") {
       const name = await trigger("name");
       const password = await trigger("password");
@@ -95,6 +96,10 @@ const Sign_in = () => {
     if (value === "back") {
       setSubmit(false);
     }
+  } catch (error) {
+    console.error("Error during API request:", error);
+    setError("api", { message: "Failed to connect to the server. Please try again later." });
+  }
   };
 
   const handleChange = (e, index) => {
