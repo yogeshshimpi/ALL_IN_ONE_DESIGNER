@@ -40,7 +40,7 @@ const Sign_up = () => {
   const onSubmit = async (data) => {
     const {name,email,password} = data
     const otp = o
-    const a = await fetch("http://localhost:3000/api/sign-up", {
+    const a = await fetch("https://all-in-one-designer.vercel.app/api/sign-up", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({name,email,password,otp}),
@@ -60,7 +60,7 @@ const Sign_up = () => {
   };
 
   const handleUserExist = async (value) => {
-    const a = await fetch("http://localhost:3000/api/nameExist", {
+    const a = await fetch("https://all-in-one-designer.vercel.app/api/nameExist", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: value }),
@@ -78,7 +78,7 @@ const Sign_up = () => {
       if (name && email && password && confirmPassword) {
         // setSubmit(true);
         const data = { email: getValues("email") };
-        const res = await fetch('http://localhost:3000/api/sendSignUpOtp',{
+        const res = await fetch('https://all-in-one-designer.vercel.app/api/sendSignUpOtp',{
           method:"POST",
           headers: { "Content-Type": "application/json" },
           body:JSON.stringify(data),

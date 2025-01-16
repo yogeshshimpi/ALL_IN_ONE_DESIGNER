@@ -33,7 +33,7 @@ const Sign_in = () => {
     const {name,password} = data
     const otp = o
     console.log({name,password,otp})
-    const a = await fetch("http://localhost:3000/api/sign-in", {
+    const a = await fetch("https://all-in-one-designer.vercel.app/api/sign-in", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({name,password,otp}),
@@ -61,7 +61,7 @@ const Sign_in = () => {
           name: getValues("name"),
           password: getValues("password"),
         };
-        const res = await fetch('http://localhost:3000/api/sendSignInOtp', {
+        const res = await fetch('https://all-in-one-designer.vercel.app/api/sendSignInOtp', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),

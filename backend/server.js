@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer'
 import bcrypt from 'bcrypt'
+import path from 'path'
 
 
 dotenv.config();
@@ -290,6 +291,10 @@ app.post('/api/sign-in', async (req, res) => {
 });
 
 
+app.use(express.static(path.join("Y:/Project/all-in-one-designer/dist")))
+app.get('*',(_,res)=>{
+  res.sendFile(path.resolve("Y:/Project/all-in-one-designer/dist/index.html"))
+})
 
 
 

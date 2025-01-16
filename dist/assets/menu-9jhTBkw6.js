@@ -1,0 +1,1 @@
+const s="/assets/logo%20white-D-jE3jkc.png",t="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20height='24px'%20viewBox='0%20-960%20960%20960'%20width='24px'%20fill='%23ffffff'%3e%3cpath%20d='M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z'/%3e%3c/svg%3e";export{s as l,t as m};
