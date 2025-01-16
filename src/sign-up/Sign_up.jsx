@@ -4,7 +4,7 @@ import visibility from "../assets/visibility.svg";
 import visibility_off from "../assets/visibility_off.svg";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-const ReverseTimer = React.lazy(() => import("../Reversetimer/Reversetimer"));
+import  ReverseTimer from '../Reversetimer/ReverseTimer';
 
 const Sign_up = () => {
   const naviagte = useNavigate();

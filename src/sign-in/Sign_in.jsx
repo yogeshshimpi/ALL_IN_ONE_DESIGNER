@@ -1,10 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState ,Suspense} from "react";
 import "./Sign_in.css";
 import visibility from "../assets/visibility.svg";
 import visibility_off from "../assets/visibility_off.svg";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-const ReverseTimer = React.lazy(() => import("../Reversetimer/Reversetimer"));
+import  ReverseTimer from '../Reversetimer/ReverseTimer';
 
 const Sign_in = () => {
   const [EyePassword, setEyePassword] = useState(true);
@@ -161,7 +161,9 @@ const Sign_in = () => {
                 <div className="resend-timer">
                   <span>Otp valid for 5 minute</span>
                   {submit ? (
+                    <Suspense fallback={<div>Loading...</div>}>
                     <ReverseTimer initialTime={timer} />
+                    </Suspense>
                   ) : (
                     <span></span>
                   )}
