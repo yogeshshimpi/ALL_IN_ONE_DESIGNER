@@ -47,26 +47,26 @@ const Landing_page = () => {
 
   const handleDropDown = () => setDropDown(!dropDown);
 
-  const handleRedirectHome = async() =>{
-    const res = await fetch("http://localhost:3000/api/get-cookie",{
-      method:'POST',
-      credentials:'include',
-    })
-    const data = await res.json()
-    const userDetail = data.data
-    const response = await fetch('http://localhost:3000/api/redirect-home',{
-      method:'POST',
-      headers: { "Content-Type": "application/json" },
-      body:JSON.stringify(userDetail),
-    })
+  // const handleRedirectHome = async() =>{
+  //   const res = await fetch("http://localhost:3000/api/get-cookie",{
+  //     method:'POST',
+  //     credentials:'include',
+  //   })
+  //   const data = await res.json()
+  //   const userDetail = data.data
+  //   const response = await fetch('http://localhost:3000/api/redirect-home',{
+  //     method:'POST',
+  //     headers: { "Content-Type": "application/json" },
+  //     body:JSON.stringify(userDetail),
+  //   })
 
-    const result = await response.json()
-    if(result.message){
-      navigate('./home')
-    }
+  //   const result = await response.json()
+  //   if(result.message){
+  //     navigate('./home')
+  //   }
       
-  }
-  handleRedirectHome()
+  // }
+  // handleRedirectHome()
   return (
     <section className="landing-page">
       <section className="sec">
