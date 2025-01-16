@@ -165,7 +165,7 @@ app.post('/api/sendOtp', async(req, res) => {
       const otpHash = await bcrypt.hash(`${otp}`,12)
       res.cookie('loginotp', JSON.stringify({ otpHash,name }), {
         httpOnly: true,
-        secure: process.env.NODE_ENV,  // Set to true for production
+        secure: process.env.NODE_ENV === "production",  // Set to true for production
         sameSite: 'Strict',
         maxAge: 5 * 60 * 1000, // Expires in 5 minutes
       });
@@ -204,7 +204,7 @@ app.post('/api/sendSignUpOtp', async (req,res)=>{
       const otpHash =await bcrypt.hash(`${otp}`,12)
       res.cookie('loginotp', JSON.stringify({ otpHash,email }), {
         httpOnly: true,
-        secure: process.env.NODE_ENV,  // Set to true for production
+        secure: process.env.NODE_ENV === "production",  // Set to true for production
         sameSite: 'Strict',
         maxAge: 5 * 60 * 1000, // Expires in 5 minutes
       });
@@ -246,7 +246,7 @@ app.post('/api/sendSignInOtp', async(req,res)=>{
           const otpHash = await bcrypt.hash(`${otp}`,12)
           res.cookie('loginotp', JSON.stringify({ otpHash,name }), {
             httpOnly: true,
-            secure: process.env.NODE_ENV,  // Set to true for production
+            secure: process.env.NODE_ENV === "production",  // Set to true for production
             sameSite: 'Strict',
             maxAge: 5 * 60 * 1000, // Expires in 5 minutes
           });
@@ -274,7 +274,7 @@ app.post('/api/sign-in', async (req, res) => {
         const passwordHash = await bcrypt.hash(`${password}`,12)
         res.cookie('login_info',JSON.stringify({name,passwordHash}),{
           httpOnly: true,
-          secure: process.env.NODE_ENV,  // Set to true for production
+          secure: process.env.NODE_ENV === "production",  // Set to true for production
           sameSite: 'Strict',
           maxAge: 14 *24 * 60 * 1000,
         })
