@@ -9,13 +9,14 @@
     color: white;
 }
 .hero {
-    width: 1538px;
+    width: 1536px !important;
     height: 100vh;
     color: white;
     background-color: var(--color1);
     display: flex;
     justify-content: center;
     font-family: "roboto" ;
+    padding: 0 !important;
 }
 
 ::-webkit-scrollbar{

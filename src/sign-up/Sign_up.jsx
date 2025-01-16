@@ -40,7 +40,6 @@ const Sign_up = () => {
   const onSubmit = async (data) => {
     const {name,email,password} = data
     const otp = o
-    console.log({name,email,password,otp})
     const a = await fetch("http://localhost:3000/api/sign-up", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -77,7 +76,7 @@ const Sign_up = () => {
       const confirmPassword = await trigger("confirmPassword");
 
       if (name && email && password && confirmPassword) {
-        setSubmit(true);
+        // setSubmit(true);
         const data = { email: getValues("email") };
         const res = await fetch('http://localhost:3000/api/sendSignUpOtp',{
           method:"POST",

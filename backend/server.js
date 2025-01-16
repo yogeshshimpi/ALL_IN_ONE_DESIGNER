@@ -209,17 +209,24 @@ app.post('/api/sendSignUpOtp', async (req,res)=>{
       });
       res.json({message:true})
   
-      
+   
+    // res.json({ message: true })
+  } catch (error) {
+    console.log(error)
+    res.json({ message: false })
+
+  }
+})   
 // sign-in section api
 
-app.post('/api/sendSignInOtp', async (req,res)=>{
+app.post('/api/sendSignInOtp', async(req,res)=>{
   const {name,password} = req.body
+
   try {
     const result = await user_detail.findOne({ name });
     if (result) {
       const validUser = await user_detail.findOne({ name, password });
       if (validUser) {
-        console.log(validUser.email)
         const otp = generateOTP()
           const mailOptions = {
             from: process.env.EMAIL,
@@ -242,9 +249,9 @@ app.post('/api/sendSignInOtp', async (req,res)=>{
             sameSite: 'Strict',
             maxAge: 5 * 60 * 1000, // Expires in 5 minutes
           });
-        res.json({ message: "success" });
+        return res.json({ message: "success" });
       } else {
-        res.json({ message: "passwordInvalid" });
+        return res.json({ message: "passwordInvalid" });
       }
     } else {
       res.json({ message: "usernameInvalid" });
@@ -255,25 +262,27 @@ app.post('/api/sendSignInOtp', async (req,res)=>{
 })
 
 app.post('/api/sign-in', async (req, res) => {
-  const { name, password } = req.body;
+  const { name, password ,otp} = req.body;
   try {
-    const result = await user_detail.findOne({ name });
-    if (result) {
-      const validUser = await user_detail.findOne({ name, password });
-      if (validUser) {
-        res.cookie('userinfo', JSON.stringify({ name, password }), {
+    const isValidCookie = req.cookies.loginotp
+    if(isValidCookie){
+      const otpString = String(otp)
+      const {otpHash:Hashotp, name:nameCookie} = JSON.parse(isValidCookie)
+      const isValidOtp = await bcrypt.compare(otpString,Hashotp)
+      if(name === nameCookie && isValidOtp){
+        const passwordHash = await bcrypt.hash(`${password}`,12)
+        res.cookie('login_info',JSON.stringify({name,passwordHash}),{
           httpOnly: true,
-          secure: process.env.NODE_ENV , // set to true in production for HTTPS
+          secure: process.env.NODE_ENV,  // Set to true for production
           sameSite: 'Strict',
-          domain: 'all-in-one-designer.vercel.app',
-          maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days
-        });
-        res.json({ message: "success" });
-      } else {
-        res.json({ message: "passwordInvalid" });
+          maxAge: 14 *24 * 60 * 1000,
+        })
+        res.json({message:"success"})
+      }else{
+        res.json({message:"invalidOtp"})
       }
-    } else {
-      res.json({ message: "usernameInvalid" });
+    }else{
+      res.json({message:"invalidOtp"})
     }
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error', error });
@@ -282,13 +291,6 @@ app.post('/api/sign-in', async (req, res) => {
 
 
 
-    // res.json({ message: true })
-  } catch (error) {
-    console.log(error)
-    res.json({ message: false })
-
-  }
-})
 
 
 
