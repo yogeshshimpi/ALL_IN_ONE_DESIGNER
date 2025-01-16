@@ -31,12 +31,12 @@ const Home = () => {
       }, 400);
     }
   return (
-    <section className="hero">
+    <section className="home">
       <section className="main">
         <nav>
           <div className="logo-sec">
             <img src={logo} alt="" className="logo-img" />
-            <div className="logo-text ">All IN ONE DESIGNER</div>
+            <div className="logo-text ">All IN ONE DzESIGNER</div>
           </div>
           <div className="search-sec">
             <div className="search-field">

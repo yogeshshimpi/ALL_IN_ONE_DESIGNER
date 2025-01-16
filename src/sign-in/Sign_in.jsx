@@ -128,7 +128,6 @@ const Sign_in = () => {
     }
   };
   return (
-    <section className="main">
       <section className="hero">
         <div className="heading">Sign In</div>
         <div className="sub-heading">Enter your credential to login</div>
@@ -287,7 +286,6 @@ const Sign_in = () => {
           </div>
         </div>
       </section>
-    </section>
   );
 };
 

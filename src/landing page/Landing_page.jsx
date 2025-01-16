@@ -1,7 +1,7 @@
 import "./Landing_page.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import logo from "../assets/logo black.png";
+import logo from "../assets/logo white.png";
 import menu from "../assets/menu.svg";
 import arrowForWhite from "../assets/arrow_forward_white.svg";
 import arrowFor from "../assets/arrow_forward.svg";
@@ -69,6 +69,7 @@ const Landing_page = () => {
   handleRedirectHome()
   return (
     <section className="landing-page">
+      <section className="sec">
       <nav>
         <div className="logo-side">
           <img src={logo} className="image" alt="Logo" />
@@ -177,6 +178,7 @@ const Landing_page = () => {
             />
           </div>
         </button>
+      </section>
       </section>
     </section>
   );

@@ -1,11 +1,10 @@
-.main {
+/* .main {
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     background-color: #292929;
-    color: white;
-}
+} */
 
 .hero {
     width: 600px;
@@ -158,10 +157,10 @@ form .submit .loader {
     border-color: var(--color) !important;
 }
 
-form .forget {
+.forget {
     text-align: center;
 }
-form .forget .Link{
+.forget .Link{
     
     text-decoration: none;
     color: #5151d3;

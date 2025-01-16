@@ -1,6 +1,19 @@
 
   
+  main{
+    width: 100%;
+    background-color: #292929;
+    height: 100%;
+    color: white;
+    display: flex;
+    justify-content: center !important;
+    flex-direction: row !important;
+    font-family: "Ubuntu ",sans-serif;
+  }
   .landing-page{
+    /* display: flex;
+    flex-direction: column; */
+    /* align-items: center; */
     width: 1538px;
     height: 100%;
   }
@@ -13,7 +26,7 @@
   nav{
     width: 100%;
     height: 80px;
-    border-bottom: 2px solid var(--black);
+    border-bottom: 1px solid #3c3838;
     display: flex;
     align-items: center;
     padding: 20px;
@@ -32,8 +45,8 @@
   
   nav .text{
     font-family: "bebas neue";
-    font-size: 25px;
-    font-weight: 900;
+    font-size: 30px;
+    font-weight: 500;
   }
   
   nav .navigation{
@@ -44,7 +57,7 @@
     list-style: none;
   }
   nav .navigation li a{
-    color: var(--black);
+    color: var(--white);
     text-decoration: none;
     display: flex;
     flex-direction: column;
@@ -56,7 +69,7 @@
   nav .navigation li span{
     width: 0%;
     opacity: 0%;
-    border: 1px solid var(--black);
+    border: 1px solid var(--white);
     transition-duration: 0.4s;
   }
   nav .navigation li:hover span{
@@ -74,7 +87,7 @@
     display: flex;
     align-items: center;
     padding: 8px 20px;
-    border: 2px solid var(--black);
+    border: 2px solid var(--white);
     border-radius: 30px;
     transition-duration: 0.3s;
     background-color: transparent;
@@ -129,7 +142,7 @@
     font-family: "Ubuntu",sans-serif;
     font-weight: 700;
     animation: text-1 1s;
-    color: var(--black);
+    color: var(--white);
   }
   @keyframes text-1{
     from{
@@ -278,12 +291,14 @@
     font-weight: 700;
     border-radius: 50px;
     gap: 10px;
+    border: 2px solid transparent;
     transition-duration: 0.2s;
   }
   
   
   .tool-sec .right-side .btn0 {
-    border: 2px solid black;
+    background-color: #0078D4;
+    
     
   }
   
@@ -297,8 +312,9 @@
     background-color: #0078d46b;
   }
   
-  .tool-sec .right-side .btn1 {    border: 2px solid black;
-  
+  .tool-sec .right-side .btn1 {  
+    background-color: #D83B01;
+
   }
   
   .tool-sec .right-side .btn1:hover {
@@ -313,7 +329,7 @@
   }
   
   .tool-sec .right-side .btn2 {
-    border: 2px solid black;
+    background-color: #217346;
   }
   
   .tool-sec .right-side .btn2:hover {
@@ -328,7 +344,7 @@
   }
   
   .tool-sec .right-side .btn3 {
-    border: 2px solid black;
+    background-color: #6E6E6E;
   }
   
   .tool-sec .right-side .btn3:hover {
@@ -343,8 +359,8 @@
   }
   
   .tool-sec .right-side .btn4 {
-    border: 2px solid black;
-  }
+    background-color: #800080;
+ }
   
   .tool-sec .right-side .btn4:hover {
     border-color: #800080;
@@ -358,7 +374,7 @@
   }
   
   .tool-sec .right-side .btn5 {
-    border: 2px solid black;
+    background-color: #008080;
   }
   
   .tool-sec .right-side .btn5:hover {

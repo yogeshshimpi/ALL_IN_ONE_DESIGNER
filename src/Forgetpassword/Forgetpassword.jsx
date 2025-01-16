@@ -134,8 +134,7 @@ const Forgetpassword = () => {
     }
   };
   return (
-    <section className="hero">
-      <section className="main">
+      <section className="hero">
         <div className="heading">Forget Password</div>
         <div className="sub-heading">Change your password</div>
         <form action="" onSubmit={handleSubmit(onSubmit)}>
@@ -264,7 +263,6 @@ const Forgetpassword = () => {
             <button><Link to='/sign-in'><img src={arrow_back} alt="" /></Link></button> Back to Sign In
           </div>
       </section>
-    </section>
   );
 };
 

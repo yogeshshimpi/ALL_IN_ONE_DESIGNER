@@ -138,7 +138,6 @@ const Sign_up = () => {
     }
   };
   return (
-    <section className="main">
       <section className="sign-up">
         <div className="heading">Sign Up</div>
         <div className="sub-heading">Create New Account</div>
@@ -348,7 +347,6 @@ const Sign_up = () => {
           </div>
         </div>
       </section>
-    </section>
   );
 };
 
