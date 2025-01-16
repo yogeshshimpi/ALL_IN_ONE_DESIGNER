@@ -26,7 +26,7 @@ const Sign_in = () => {
   const [submit, setSubmit] = useState(false);
   const [o, seto] = useState(null);
   const inputRefs = useRef([]);
-  const [timer, setTimer] = useState(0);
+  // const [timer, setTimer] = useState(0);
 
   const onSubmit = async (data) => {
     
@@ -162,7 +162,7 @@ const Sign_in = () => {
                   <span>Otp valid for 5 minute</span>
                   {submit ? (
                     <Suspense fallback={<div>Loading...</div>}>
-                    <ReverseTimer initialTime={timer} />
+                    <ReverseTimer initialTime={300} />
                     </Suspense>
                   ) : (
                     <span></span>
