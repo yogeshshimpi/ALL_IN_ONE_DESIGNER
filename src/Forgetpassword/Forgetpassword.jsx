@@ -76,7 +76,7 @@ const Forgetpassword = () => {
   const onSubmit = async (data) => {
     if (data.button) {
       const name = data.name;
-      const response = await fetch("https://all-in-one-designer.vercel.app/api/sendOtp", {
+      const response = await fetch(`${process.env.API_URL}api/sendOtp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body:JSON.stringify({name}),
@@ -109,7 +109,7 @@ const Forgetpassword = () => {
       });
       return; // Prevent form submission if OTP is invalid
     }
-    const response = await fetch("https://all-in-one-designer.vercel.app/api/verifiedOtp",{
+    const response = await fetch(`${process.env.API_URL}api/verifiedOtp`,{
       method:"POST",
       headers: { "Content-Type": "application/json" },
       body:JSON.stringify({name,password,otp}),

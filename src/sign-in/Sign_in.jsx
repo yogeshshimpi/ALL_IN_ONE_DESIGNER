@@ -26,14 +26,14 @@ const Sign_in = () => {
   const [submit, setSubmit] = useState(false);
   const [o, seto] = useState(null);
   const inputRefs = useRef([]);
-  // const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(0);
 
   const onSubmit = async (data) => {
     
     const {name,password} = data
     const otp = o
     console.log({name,password,otp})
-    const a = await fetch("https://all-in-one-designer.vercel.app/api/sign-in", {
+    const a = await fetch("http://localhost:3000/api/sign-in", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({name,password,otp}),
@@ -53,7 +53,6 @@ const Sign_in = () => {
   };
 
   const handleSubmitForm = async (value) => {
-    try{
     if (value === "next") {
       const name = await trigger("name");
       const password = await trigger("password");
@@ -62,7 +61,7 @@ const Sign_in = () => {
           name: getValues("name"),
           password: getValues("password"),
         };
-        const res = await fetch('https://all-in-one-designer.vercel.app/api/sendSignInOtp', {
+        const res = await fetch(`${process.env.API_URL}api/sendSignInOtp`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
@@ -96,10 +95,6 @@ const Sign_in = () => {
     if (value === "back") {
       setSubmit(false);
     }
-  } catch (error) {
-    console.error("Error during API request:", error);
-    setError("api", { message: "Failed to connect to the server. Please try again later." });
-  }
   };
 
   const handleChange = (e, index) => {
@@ -167,7 +162,7 @@ const Sign_in = () => {
                   <span>Otp valid for 5 minute</span>
                   {submit ? (
                     <Suspense fallback={<div>Loading...</div>}>
-                    <ReverseTimer initialTime={300} />
+                    <ReverseTimer initialTime={timer} />
                     </Suspense>
                   ) : (
                     <span></span>
