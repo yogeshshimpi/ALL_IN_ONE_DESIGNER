@@ -31,7 +31,7 @@ mongoose.set('strictQuery', true);
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3001', 'http://localhost:5173','https://all-in-one-designer.onrender.com/', 'https://all-in-one-designer.vercel.app/'],
+  origin: ['http://localhost:3000', 'http://localhost:5173','https://all-in-one-designer.onrender.com/', 'https://all-in-one-designer.vercel.app/'],
   credentials: true
 }));
 app.use(bodyParser.json());
