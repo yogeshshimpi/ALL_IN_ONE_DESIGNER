@@ -1,5 +1,6 @@
 import React, { useRef, useState ,Suspense} from "react";
 import "./Sign_in.css";
+
 import visibility from "../assets/visibility.svg";
 import visibility_off from "../assets/visibility_off.svg";
 import { useForm } from "react-hook-form";
@@ -14,6 +15,7 @@ const Sign_in = () => {
   const handleInputType = () => {
     setEyePassword(!EyePassword);
   };
+  const api_url = import.meta.env.VITE_API_URL
   const {
     register,
     handleSubmit,
@@ -33,7 +35,7 @@ const Sign_in = () => {
     const {name,password} = data
     const otp = o
     console.log({name,password,otp})
-    const a = await fetch("http://localhost:3000/api/sign-in", {
+    const a = await fetch("api/sign-in", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({name,password,otp}),
@@ -61,7 +63,7 @@ const Sign_in = () => {
           name: getValues("name"),
           password: getValues("password"),
         };
-        const res = await fetch(`${process.env.API_URL}api/sendSignInOtp`, {
+        const res = await fetch(`${api_url}api/sendSignInOtp`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),

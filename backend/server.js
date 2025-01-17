@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { user_detail } from '../models/userinfos.js';
+import { user_detail } from './models/userinfos.js';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer'
@@ -17,7 +17,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Database connection
-const connectDB = async () => {
+const connectDB = async() => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('MongoDB connected');
@@ -27,6 +27,7 @@ const connectDB = async () => {
 };
 
 connectDB();  // Call the DB connection function
+mongoose.set('strictQuery', true);
 
 // Middleware
 app.use(cors({
