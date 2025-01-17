@@ -27,7 +27,6 @@ const connectDB = async() => {
 };
 
 connectDB();  // Call the DB connection function
-mongoose.set('strictQuery', true);
 
 // Middleware
 app.use(cors({

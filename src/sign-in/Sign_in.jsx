@@ -35,7 +35,7 @@ const Sign_in = () => {
     const {name,password} = data
     const otp = o
     console.log({name,password,otp})
-    const a = await fetch("api/sign-in", {
+    const a = await fetch(`${api_url}api/sign-in`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({name,password,otp}),
