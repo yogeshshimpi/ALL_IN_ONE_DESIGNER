@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import nodemailer from 'nodemailer'
 import bcrypt from 'bcrypt'
 import path from 'path'
+import { fileURLToPath } from 'url';
 
 
 dotenv.config();
@@ -289,12 +290,16 @@ app.post('/api/sign-in', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error', error });
   }
 });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+app.use(express.static(path.join(__dirname, '../dist'))); 
 
-app.use(express.static(path.join("Y:/Project/all-in-one-designer/dist")))
-app.get('*',(_,res)=>{
-  res.sendFile(path.resolve("Y:/Project/all-in-one-designer/dist/index.html"))
-})
+// Handle SPA routing (catch-all route)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+});
+
 
 
 

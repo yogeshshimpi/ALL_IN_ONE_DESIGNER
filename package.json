@@ -1,11 +1,10 @@
 {
   "name": "all-in-one-designer-mern",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
-  "description": "A MERN stack application with Vite for the frontend and Express for the backend.",
   "scripts": {
-    "start:dev": "concurrently \"npm run dev server ",
+    "start:dev": "concurrently \"npm run dev --prefix frontend\" \"npm run server --prefix backend\"",
     "dev": "vite",
     "server": "nodemon ./backend/server.js",
     "build": "vite build",
@@ -41,12 +40,5 @@
     "globals": "^15.14.0",
     "nodemon": "^3.1.9",
     "vite": "^6.0.5"
-  },
-  "engines": {
-    "node": ">=14.18",
-    "npm": ">=7.0"
-  },
-  "keywords": ["mern", "react", "vite", "express", "frontend", "backend"],
-  "author": "Your Name",
-  "license": "MIT"
+  }
 }
