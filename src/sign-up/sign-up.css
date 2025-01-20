@@ -173,3 +173,56 @@ form .otp-validation{
     width: 100% !important;
     text-align: center;
 }
+
+.logo-validation{
+    display: flex;  
+    flex-direction: column;
+    gap: 10px;
+    height: 400px;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-validation .text{
+    font-size: 27px;
+    font-family: "Ubuntu";
+}
+.logo-validation .input-logo{
+    background-color: #7c7c7c;
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0px;
+}
+.logo-validation .input-logo:hover{
+    box-shadow: 0px 0px 17px 0px #0e0adf4f;
+}
+.logo-validation .input-logo .userimage{
+    width: 100%;
+    height: 100%;
+    border-radius: 100px;
+    outline: none;
+}
+.logo-validation .input-logo .change-logo{
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    align-self:flex-end;
+    border-radius: 0px 0px 100px 100px;
+    transition-duration: 0.5s;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.726);
+    opacity: 0%;
+}
+.logo-validation .input-logo:hover .change-logo{
+    opacity: 100%;
+}
+.logo-validation .input-logo .change-logo img{
+    width: 30px;
+    height: 30px;
+}

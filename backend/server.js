@@ -38,28 +38,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
-app.post('/api/sign-up', async (req, res) => {
-  try {
-  const { name, email, password,otp } = req.body;
-    const cookiedata = req.cookies.loginotp
-    if(cookiedata){
-      const {otpHash:Hashotp,email:cookieEmail} = JSON.parse(cookiedata)
-    const isValidOtp = await bcrypt.compare(otp,Hashotp)
-    console.log(isValidOtp)
-    if(email === cookieEmail && isValidOtp){
-      const data = new user_detail({name:name,email:email,password:password})
-      await data.save()
-      res.json({message:true})
-    }else{
-      res.json({message:false})
-    }
-    }else{
-      res.json({message:"server"})
-    }
-  } catch (error) {
-    res.status(500).json({ message: 'Internal Server Error', error });
-  }
-});
+
 
 app.post('/api/nameExist', async (req, res) => {
   const { name } = req.body;
@@ -182,7 +161,50 @@ app.post('/api/sendOtp', async(req, res) => {
   }
 
 })
-
+app.post('/api/sign-up', async (req, res) => {
+  try {
+  const { name, email, password,image } = req.body;
+  console.log({ name, email, password,image })
+  //   const cookiedata = req.cookies.loginotp
+  //   if(cookiedata){
+  //     const {otpHash:Hashotp,email:cookieEmail} = JSON.parse(cookiedata)
+  //   const isValidOtp = await bcrypt.compare(otp,Hashotp)
+  //   console.log(isValidOtp)
+  //   if(email === cookieEmail && isValidOtp){
+  //     const data = new user_detail({name:name,email:email,password:password})
+  //     await data.save()
+  //     res.json({message:true})
+  //   }else{
+  //     res.json({message:false})
+  //   }
+  //   }else{
+      res.json({message:"server"})
+  //   }
+  
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error', error });
+  }
+});
+app.post('/api/verifiedSignUpOtp',async(req,res)=>{
+  try {
+    const { email,otp } = req.body;
+      const cookiedata = req.cookies.loginotp
+      if(cookiedata){
+        const {otpHash:Hashotp,email:cookieEmail} = JSON.parse(cookiedata)
+      const isValidOtp = await bcrypt.compare(otp,Hashotp)
+      console.log(isValidOtp)
+      if(email === cookieEmail && isValidOtp){
+        res.json({message:true})
+      }else{
+        res.json({message:false})
+      }
+      }else{
+        res.json({message:"server"})
+      }
+    } catch (error) {
+      res.status(500).json({ message: 'Internal Server Error', error });
+    }
+})
 app.post('/api/sendSignUpOtp', async (req,res)=>{
   try {
     const {email} = req.body
@@ -219,7 +241,7 @@ app.post('/api/sendSignUpOtp', async (req,res)=>{
 
   }
 })   
-// sign-in section api
+// sign-in section apif
 
 app.post('/api/sendSignInOtp', async(req,res)=>{
   const {name,password} = req.body
