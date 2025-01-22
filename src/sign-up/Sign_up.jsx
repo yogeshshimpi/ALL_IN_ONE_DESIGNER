@@ -24,7 +24,7 @@ const Sign_up = () => {
   } = useForm();
   const [EyePassword, setEyePassword] = useState(false);
   const [EyeConfirm, setEyeConfirm] = useState(false);
-  const [submit, setSubmit] = useState("page2");
+  const [submit, setSubmit] = useState("page1");
   const [o, seto] = useState(null);
   const inputRefs = useRef([]);
   const [timer, setTimer] = useState(0);

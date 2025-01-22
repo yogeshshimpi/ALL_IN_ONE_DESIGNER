@@ -8,7 +8,7 @@ import { useNavigate, Link } from "react-router-dom";
 import  ReverseTimer from '../Reversetimer/ReverseTimer';
 
 const Sign_in = () => {
-  const [EyePassword, setEyePassword] = useState(true);
+  const [EyePassword, setEyePassword] = useState(false);
   const navigate = useNavigate();
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const length = otp.length;
