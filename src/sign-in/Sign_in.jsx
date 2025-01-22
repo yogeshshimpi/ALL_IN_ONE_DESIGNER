@@ -25,7 +25,7 @@ const Sign_in = () => {
     clearErrors,
     formState: { errors, isSubmitting },
   } = useForm();
-  const [submit, setSubmit] = useState(false);
+  const [submit, setSubmit] = useState(true);
   const [o, seto] = useState(null);
   const inputRefs = useRef([]);
   const [timer, setTimer] = useState(0);

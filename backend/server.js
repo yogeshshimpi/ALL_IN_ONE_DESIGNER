@@ -9,6 +9,8 @@ import nodemailer from 'nodemailer'
 import bcrypt from 'bcrypt'
 import path from 'path'
 import { fileURLToPath } from 'url';
+import fs from 'fs'
+import multer from 'multer';
 
 
 dotenv.config();
@@ -36,9 +38,17 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Routes
 
+const USERDATA_FOLDER = path.join(__dirname,"../userData")
+if (!fs.existsSync(USERDATA_FOLDER)) {
+  fs.mkdirSync(USERDATA_FOLDER, { recursive: true });
+}
+
+
+const upload = multer({ dest: "uploads/" });
 
 app.post('/api/nameExist', async (req, res) => {
   const { name } = req.body;
@@ -161,30 +171,49 @@ app.post('/api/sendOtp', async(req, res) => {
   }
 
 })
+function generateRandomString(length) {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters[randomIndex];
+  }
+  return result;
+}
+
 app.post('/api/sign-up', async (req, res) => {
   try {
   const { name, email, password,image } = req.body;
   console.log({ name, email, password,image })
-  //   const cookiedata = req.cookies.loginotp
-  //   if(cookiedata){
-  //     const {otpHash:Hashotp,email:cookieEmail} = JSON.parse(cookiedata)
-  //   const isValidOtp = await bcrypt.compare(otp,Hashotp)
-  //   console.log(isValidOtp)
-  //   if(email === cookieEmail && isValidOtp){
-  //     const data = new user_detail({name:name,email:email,password:password})
-  //     await data.save()
-  //     res.json({message:true})
-  //   }else{
-  //     res.json({message:false})
-  //   }
-  //   }else{
-      res.json({message:"server"})
-  //   }
+ 
+      const data = new user_detail({name:name,email:email,password:password,imageUrl:image})
+      await data.save()
+      res.json({message:true})
   
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error', error });
   }
 });
+app.post('/api/imageUpload',upload.single("file"),async(req,res)=>{
+    const newFileName  = generateRandomString(10)
+    if (!newFileName || !req.file) {
+      return res.status(400).send("Missing file or new file name.");
+    }
+
+    const oldPath = req.file.path; // Temporary file path from multer
+  const extension = path.extname(req.file.originalname); // Original file extension
+  const newPath = path.join(USERDATA_FOLDER, `${newFileName}${extension}`);
+
+  fs.rename(oldPath, newPath, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Failed to save the file.");
+    }
+  });
+  res.json({message:newPath})
+
+})
 app.post('/api/verifiedSignUpOtp',async(req,res)=>{
   try {
     const { email,otp } = req.body;
@@ -312,8 +341,6 @@ app.post('/api/sign-in', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error', error });
   }
 });
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, '../dist'))); 
 

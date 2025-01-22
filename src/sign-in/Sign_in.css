@@ -223,3 +223,45 @@ form .button{
     flex-direction: row;
     justify-content: space-between;
 }
+
+
+@media (max-width:600px) {
+    .hero{
+        width: 500px;
+        padding: 30px 50px;
+    }
+}
+@media (max-width:500px) {
+    .hero{
+        width: 450px;
+        padding: 30px 50px;
+    }
+}
+
+@media (max-width:450px) {
+    .hero{
+        width: 400px;
+        padding: 30px 50px;
+    }
+}
+
+@media (max-width:400px) {
+    .hero{
+        width: 350px;
+        padding: 30px 30px;
+    }
+}
+
+@media (max-width:350px) {
+    .hero{
+        width: 330px;
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width:330px) {
+    .hero{
+        width: 300px;
+        padding: 30px 20px;
+    }
+}

@@ -5,8 +5,8 @@ import visibility_off from "../assets/visibility_off.svg";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import ReverseTimer from "../Reversetimer/ReverseTimer";
-import add_a_photo from '../assets/add_a_photo.svg'
-import user_account from "../assets/account_circle.svg"
+import add_a_photo from "../assets/add_a_photo.svg";
+import user_account from "../assets/account_circle.svg";
 
 const Sign_up = () => {
   const naviagte = useNavigate();
@@ -24,16 +24,17 @@ const Sign_up = () => {
   } = useForm();
   const [EyePassword, setEyePassword] = useState(false);
   const [EyeConfirm, setEyeConfirm] = useState(false);
-  const [submit, setSubmit] = useState("page1");
+  const [submit, setSubmit] = useState("page2");
   const [o, seto] = useState(null);
   const inputRefs = useRef([]);
   const [timer, setTimer] = useState(0);
-  const [imageUrl,setImageUrl] = useState(user_account)
+  const [imageUrl, setImageUrl] = useState(user_account);
   const password = watch("password");
-  const fileInputRef = useRef("")
-  const [isValidImage,setIsValidImage] = useState("")
-  const API_URL = import.meta.env.VITE_API_URL
-  const [imageValid,setImageValid] = useState(false)
+  const fileInputRef = useRef("");
+  const [isValidImage, setIsValidImage] = useState("");
+  const API_URL = import.meta.env.VITE_API_URL;
+  const [imageValid, setImageValid] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleInputType = (e) => {
     if (e == 0) {
@@ -43,25 +44,40 @@ const Sign_up = () => {
     }
   };
 
+ 
   const onSubmit = async (data) => {
-    const image = imageUrl
-    const { name, email, password} = data;
-    const a = await fetch(`${API_URL}api/sign-up`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password,image}),
-      credentials: "include",
-    });
-    const result = await a.json();
-    if (result.message) {
-      naviagte('/sign-in')
-    } else if (result.message === "server") {
-      alert("The server was not responding");
-    } else {
-      setError("otp", {
-        type: "maunal",
-        message: "The otp is invalid",
+    try {
+    const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const res = await fetch(`${API_URL}api/imageUpload`, {
+        method: "POST",
+        body: formData,
       });
+      const resultImage =await res.json()
+      console.log(resultImage)
+      const image = resultImage.message
+      console.log(image)
+      const { name, email, password } = data;
+      const a = await fetch(`${API_URL}api/sign-up`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password, image }),
+        credentials: "include",
+      });
+      const result = await a.json();
+      if (result.message) {
+        naviagte("/sign-in");
+      } else if (result.message === "server") {
+        alert("The server was not responding");
+      } else {
+        setError("otp", {
+          type: "maunal",
+          message: "The otp is invalid",
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -76,8 +92,7 @@ const Sign_up = () => {
   };
   const handleSubmitForm = async (value) => {
     if (value === "next") {
-
-      console.log(API_URL)
+      console.log(API_URL);
       const name = await trigger("name");
       const email = await trigger("email");
       const password = await trigger("password");
@@ -98,25 +113,25 @@ const Sign_up = () => {
         }
       }
     }
-    if(value === "next2"){
-      const data = ({otp : o,email:getValues("email")})
-    const a = await fetch(`${API_URL}api/verifiedSignUpOtp`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-      credentials: "include",
-    });
-    const result = await a.json();
-    if (result.message) {
-      setSubmit("page3");
-    } else if (result.message === "server") {
-      alert("The server was not responding");
-    } else {
-      setError("otp", {
-        type: "maunal",
-        message: "The otp is invalid",
+    if (value === "next2") {
+      const data = { otp: o, email: getValues("email") };
+      const a = await fetch(`${API_URL}api/verifiedSignUpOtp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        credentials: "include",
       });
-    }
+      const result = await a.json();
+      if (result.message) {
+        setSubmit("page3");
+      } else if (result.message === "server") {
+        alert("The server was not responding");
+      } else {
+        setError("otp", {
+          type: "maunal",
+          message: "The otp is invalid",
+        });
+      }
     }
     if (value === "name") {
       await trigger("name");
@@ -166,30 +181,37 @@ const Sign_up = () => {
   };
   const handleImageValidation = (file) => {
     // file = file.target
+    console.log(file);
     if (!file) {
-      setImageValid(false)
-      return "Select the valid profile image" 
+      setImageValid(false);
+      return "Select the valid profile image";
     }
-    const validTypes = ["image/jpeg", "image/png", "image/gif"];
-     if(!validTypes.includes(file.type)){
-      setImageValid(false)
-      return "Only JPEG, PNG, and GIF files are allowed"
+    const validTypes = [
+      "image/svg",
+      "image/jpg",
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+    ];
+    if (!validTypes.includes(file.type)) {
+      setImageValid(false);
+      return "Only JPEG, PNG, SVG, JPG and GIF files are allowed";
     }
 
     const maxSizeInMB = 2;
     if (file.size > maxSizeInMB * 1024 * 1024) {
-      setImageValid(false)
-      return `File size should not exceed ${maxSizeInMB}MB`
+      setImageValid(false);
+      return `File size should not exceed ${maxSizeInMB}MB`;
     }
-    setImageValid(true)
-    return "done"
+    setImageValid(true);
+    return "done";
   };
   const handleFileButtonClick = () => {
     if (fileInputRef.current) {
-      console.log("lc")
+      console.log("lc");
       fileInputRef.current.click(); // Trigger the file input dialog
-    } else{
-      console.log("error")
+    } else {
+      console.log("error");
     }
   };
 
@@ -367,29 +389,35 @@ const Sign_up = () => {
             <div className="text">Upload your image</div>
             <div className="input-logo">
               <img src={imageUrl} alt="" className="userimage" />
-              <button type="button" onClick={handleFileButtonClick} className="change-logo">
+              <button
+                type="button"
+                onClick={handleFileButtonClick}
+                className="change-logo">
                 <img src={add_a_photo} alt="" />
               </button>
               <input
-                {...register("image",{
-                  validate: 
-                    imageValid && "Please select the valid image"
+                {...register("image", {
+                  validate: imageValid && "Please select the valid image",
                 })}
                 type="file"
                 style={{ display: "none" }}
-                onChange={(e)=>{
-                  const file =e.target.files[0]
-                  setIsValidImage(handleImageValidation(file))
-                  if(isValidImage === "done"){
-                    clearErrors("image")
-                    setImageUrl(URL.createObjectURL(file))
+                onChange={(e) => {
+                  const file = e.target.files[0]; // Get the selected file
+                  setSelectedFile(file);
+                  setIsValidImage(handleImageValidation(file));
+                  if (isValidImage === "done") {
+                    clearErrors("image");
+                    const previewUrl = URL.createObjectURL(file); // Generate preview URL
+                    setImageUrl(previewUrl);
                     // return truec
-                  }else{
-                    setImageUrl(user_account)
-                      setError("image", { type: "manual", message:  isValidImage });
-                   
+                  } else {
+                    setImageUrl(user_account);
+                    setError("image", {
+                      type: "manual",
+                      message: isValidImage,
+                    });
                   }
-                  console.log(isValidImage)
+                  console.log(isValidImage);
                 }}
                 ref={(e) => {
                   register("image").ref(e);
@@ -403,28 +431,28 @@ const Sign_up = () => {
         ) : (
           <div>invalid</div>
         )}
-        {submit === "page2"? (
+        {submit === "page2" ? (
           <div className="button">
             <button
               className="submit"
               type="button"
               onClick={() => {
-                setSubmit("page1")
+                setSubmit("page1");
               }}>
               Back
             </button>
             {/* <button disabled={isSubmitting} className="submit" type="submit"> */}
             <button
-            className="submit"
-            onClick={() => {
-              handleSubmitForm("next2");
-            }}
-            type="button">
-            Next
-          </button>
+              className="submit"
+              onClick={() => {
+                handleSubmitForm("next2");
+              }}
+              type="button">
+              Next
+            </button>
             {/* </button> */}
           </div>
-        ) : submit === "page1"? (
+        ) : submit === "page1" ? (
           <button
             className="submit"
             onClick={() => {
@@ -433,27 +461,25 @@ const Sign_up = () => {
             type="button">
             Next
           </button>
-        ):submit === "page3"?(
+        ) : submit === "page3" ? (
           <div>
             <div className="button">
-            <button
-              className="submit"
-              type="button"
-              onClick={() => {
-                setSubmit("page2");
-              }}
-              >
-              Back
-            </button>
-            <button disabled={isSubmitting} className="submit" type="submit">
-              {isSubmitting ? <div className="loader"></div> : "submit"}
-            </button>
+              <button
+                className="submit"
+                type="button"
+                onClick={() => {
+                  setSubmit("page2");
+                }}>
+                Back
+              </button>
+              <button disabled={isSubmitting} className="submit" type="submit">
+                {isSubmitting ? <div className="loader"></div> : "submit"}
+              </button>
+            </div>
           </div>
-          </div>
-        ):(
+        ) : (
           <div></div>
-        )
-      }
+        )}
       </form>
       <span className="or"></span>
       <div className="sign_in">
